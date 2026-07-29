@@ -34,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
                     ->whereIn('channel', ['paystack', 'flutterwave'])
                     ->whereIn('status', ['pending', 'failed'])
                     ->delete();
+            }
             if (\Illuminate\Support\Facades\Schema::hasTable('plans')) {
                 if (!\Illuminate\Support\Facades\Schema::hasColumn('plans', 'image_path')) {
                     \Illuminate\Support\Facades\DB::statement("ALTER TABLE plans ADD COLUMN image_path VARCHAR(255) NULL AFTER description");
