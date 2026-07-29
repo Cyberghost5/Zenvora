@@ -22,7 +22,10 @@ class DepositController extends Controller
     public function index(Request $request): View
     {
         return view('user.deposits.index', [
-            'deposits' => $request->user()->deposits()->latest()->paginate(15),
+            'deposits' => $request->user()->deposits()
+                ->whereIn('status', ['successful', 'awaiting_review'])
+                ->latest()
+                ->paginate(15),
             'channels' => $this->deposits->availableChannels(),
             'min' => $this->deposits->minimum(),
             'max' => $this->deposits->maximum(),

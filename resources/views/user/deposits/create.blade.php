@@ -51,7 +51,10 @@
 
                 @foreach (['paystack', 'flutterwave'] as $gateway)
                     @if (collect($channels)->contains('key', $gateway))
-                        <div data-channel-fields="{{ $gateway }}" class="mt-6 hidden">
+                        @php
+                            $activeGateway = old('channel', $channels[0]['key'] ?? '') === $gateway;
+                        @endphp
+                        <div data-channel-fields="{{ $gateway }}" class="mt-6 {{ $activeGateway ? '' : 'hidden' }}">
                             <div class="card">
                                 <label for="amount-{{ $gateway }}" class="label">Amount to fund</label>
                                 <div class="relative">
@@ -67,7 +70,8 @@
                                            value="{{ old('amount') }}"
                                            placeholder="{{ number_format($min->toMajor(), 2) }}"
                                            class="input tabular !pl-9"
-                                           data-required>
+                                           data-required
+                                           {{ $activeGateway ? '' : 'disabled' }}>
                                 </div>
                                 <p class="mt-1.5 text-xs text-slate-500">
                                     Between {{ $min->formatWithSymbol() }} and {{ $max->formatWithSymbol() }}.
@@ -85,7 +89,10 @@
                 @endforeach
 
                 @if (collect($channels)->contains('key', 'manual'))
-                    <div data-channel-fields="manual" class="mt-6 hidden">
+                    @php
+                        $activeManual = old('channel', $channels[0]['key'] ?? '') === 'manual';
+                    @endphp
+                    <div data-channel-fields="manual" class="mt-6 {{ $activeManual ? '' : 'hidden' }}">
                         <div class="card">
                             {{-- Show the destination account before asking for proof,
                                  so the user pays the right place first. --}}
@@ -134,7 +141,8 @@
                                                max="{{ $max->toMajor() }}"
                                                value="{{ old('amount') }}"
                                                class="input tabular !pl-9"
-                                               data-required>
+                                               data-required
+                                               {{ $activeManual ? '' : 'disabled' }}>
                                     </div>
                                     <x-input-error for="amount" />
                                 </div>
@@ -147,7 +155,8 @@
                                            value="{{ old('depositor_name') }}"
                                            class="input"
                                            placeholder="As it appears on your bank account"
-                                           data-required>
+                                           data-required
+                                           {{ $activeManual ? '' : 'disabled' }}>
                                     <x-input-error for="depositor_name" />
                                 </div>
 
@@ -160,7 +169,8 @@
                                            type="date"
                                            max="{{ now()->toDateString() }}"
                                            value="{{ old('paid_on') }}"
-                                           class="input">
+                                           class="input"
+                                           {{ $activeManual ? '' : 'disabled' }}>
                                     <x-input-error for="paid_on" />
                                 </div>
 
@@ -171,7 +181,8 @@
                                            type="file"
                                            accept=".jpg,.jpeg,.png,.webp,.pdf"
                                            class="input file:mr-3 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-sm file:text-slate-200"
-                                           data-required>
+                                           data-required
+                                           {{ $activeManual ? '' : 'disabled' }}>
                                     <p class="mt-1.5 text-xs text-slate-500">
                                         A screenshot or PDF, up to 5MB. Make sure the amount and date are legible.
                                     </p>
@@ -188,7 +199,10 @@
                 @endif
 
                 @if (collect($channels)->contains('key', 'coupon'))
-                    <div data-channel-fields="coupon" class="mt-6 hidden">
+                    @php
+                        $activeCoupon = old('channel', $channels[0]['key'] ?? '') === 'coupon';
+                    @endphp
+                    <div data-channel-fields="coupon" class="mt-6 {{ $activeCoupon ? '' : 'hidden' }}">
                         <div class="card">
                             <label for="coupon_code" class="label">Coupon code</label>
                             <input id="coupon_code"
@@ -198,7 +212,8 @@
                                    placeholder="ZVC-XXXXXXXX"
                                    autocomplete="off"
                                    class="input font-mono uppercase"
-                                   data-required>
+                                   data-required
+                                   {{ $activeCoupon ? '' : 'disabled' }}>
                             <p class="mt-1.5 text-xs text-slate-500">
                                 Codes are issued by support. The value is credited immediately. Click <a href="https://wa.me/2349031704109">here</a> to get one from our support.
                             </p>

@@ -144,10 +144,7 @@ class DepositService
         try {
             return $gateway->initiate($deposit->load('user'), $callbackUrl);
         } catch (\Throwable $e) {
-            $deposit->update([
-                'status' => 'failed',
-                'rejection_reason' => $e->getMessage(),
-            ]);
+            $deposit->delete();
 
             throw $e;
         }
@@ -174,10 +171,7 @@ class DepositService
         ]);
 
         if (! $result->successful) {
-            $deposit->update([
-                'status' => 'failed',
-                'rejection_reason' => $result->message ?? 'The payment was not completed.',
-            ]);
+            $deposit->delete();
 
             return false;
         }

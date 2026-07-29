@@ -107,12 +107,15 @@ function initChannelPicker() {
             const isMatch = section.dataset.channelFields === selected;
             section.classList.toggle('hidden', !isMatch);
 
-            // Required fields on a hidden section would block submission with
-            // an error the user cannot see, so toggle them with visibility.
-            section.querySelectorAll('[data-required]').forEach((field) => {
+            // Toggle disabled and required so hidden inputs do not collide or block submission.
+            section.querySelectorAll('input, select, textarea').forEach((field) => {
                 if (isMatch) {
-                    field.setAttribute('required', '');
+                    field.removeAttribute('disabled');
+                    if (field.hasAttribute('data-required')) {
+                        field.setAttribute('required', '');
+                    }
                 } else {
+                    field.setAttribute('disabled', 'disabled');
                     field.removeAttribute('required');
                 }
             });
