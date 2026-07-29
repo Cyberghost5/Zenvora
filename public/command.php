@@ -96,7 +96,7 @@ function renderLoginPage(): void { ?>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>vtu - Command Panel</title>
+<title>zenvora - Command Panel</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', system-ui, sans-serif;
@@ -139,7 +139,7 @@ function renderPanel(array $groupedCommands, array $groupColors, string $secret)
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>vtu - Command Panel</title>
+<title>zenvora - Command Panel</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', system-ui, sans-serif;
@@ -201,7 +201,7 @@ function renderPanel(array $groupedCommands, array $groupColors, string $secret)
 <body>
 
 <div class="header">
-  <div class="header-title">🛠 <span>vtu</span> Command Panel</div>
+  <div class="header-title">🛠 <span>zenvora</span> Command Panel</div>
   <div class="badge-warn">⚠ Delete this file after use</div>
 </div>
 
