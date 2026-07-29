@@ -177,4 +177,27 @@ class UserController extends Controller
             ? "{$user->name} is now an administrator."
             : "{$user->name} is no longer an administrator.");
     }
+
+    public function resetPassword(Request $request, User $user): RedirectResponse
+    {
+        $validated = $request->validate([
+            'password' => ['nullable', 'string', 'min:6', 'max:100'],
+        ]);
+
+        $newPassword = filled($validated['password'] ?? null)
+            ? $validated['password']
+            : str()->random(10);
+
+        $user->forceFill([
+            'password' => \Illuminate\Support\Facades\Hash::make($newPassword),
+        ])->save();
+
+        $this->audit->log(
+            action: 'user.password_reset',
+            description: "Reset password for user {$user->email}",
+            subject: $user,
+        );
+
+        return back()->with('status', "Password for {$user->name} successfully reset to: {$newPassword}");
+    }
 }

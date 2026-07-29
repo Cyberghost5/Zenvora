@@ -290,13 +290,10 @@ class DepositService
     public function submitManualDeposit(
         User $user,
         Money $amount,
-        ?UploadedFile $proof,
-        ?string $depositorName = null,
-        ?string $paidOn = null,
+        string $depositorName,
+        string $depositorAccount,
     ): Deposit {
         $this->assertWithinBounds($amount);
-
-        $path = $proof?->store('deposit-proofs', 'public');
 
         return Deposit::query()->create([
             'reference' => Deposit::newReference(),
@@ -304,9 +301,8 @@ class DepositService
             'channel' => 'manual',
             'amount' => $amount,
             'status' => 'awaiting_review',
-            'proof_path' => $path,
             'depositor_name' => $depositorName,
-            'paid_on' => $paidOn,
+            'depositor_account' => $depositorAccount,
             'paid_to_account' => trim(sprintf(
                 '%s / %s',
                 $this->settings->string('manual_bank_name'),

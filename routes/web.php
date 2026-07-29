@@ -164,6 +164,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('users/{user}/unblock', [Admin\UserController::class, 'unblock'])->name('users.unblock');
     Route::post('users/{user}/adjust-wallet', [Admin\UserController::class, 'adjustWallet'])->name('users.adjust-wallet');
     Route::post('users/{user}/toggle-admin', [Admin\UserController::class, 'toggleAdmin'])->name('users.toggle-admin');
+    Route::post('users/{user}/reset-password', [Admin\UserController::class, 'resetPassword'])->name('users.reset-password');
 
     // Coupons
     Route::get('coupons', [Admin\CouponController::class, 'index'])->name('coupons.index');

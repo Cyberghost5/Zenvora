@@ -46,21 +46,21 @@
 
                 @if ($deposit->depositor_name)
                     <div>
-                        <dt class="text-xs text-slate-500">Name on sending account</dt>
+                        <dt class="text-xs text-slate-500">Sender's Name</dt>
                         <dd class="mt-0.5 font-medium text-white">{{ $deposit->depositor_name }}</dd>
                     </div>
                 @endif
 
-                @if ($deposit->paid_on)
+                @if ($deposit->depositor_account)
                     <div>
-                        <dt class="text-xs text-slate-500">Stated transfer date</dt>
-                        <dd class="mt-0.5 font-medium text-white">{{ $deposit->paid_on->format('j M Y') }}</dd>
+                        <dt class="text-xs text-slate-500">Sender's Account Number</dt>
+                        <dd class="mt-0.5 font-mono font-medium text-white">{{ $deposit->depositor_account }}</dd>
                     </div>
                 @endif
 
                 @if ($deposit->paid_to_account)
                     <div>
-                        <dt class="text-xs text-slate-500">Paid into</dt>
+                        <dt class="text-xs text-slate-500">Paid Into</dt>
                         <dd class="mt-0.5 font-medium text-white">{{ $deposit->paid_to_account }}</dd>
                     </div>
                 @endif
@@ -95,33 +95,6 @@
             @if ($deposit->rejection_reason)
                 <p class="mt-5 rounded-xl border border-rose-500/25 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
                     <strong class="font-semibold">Note:</strong> {{ $deposit->rejection_reason }}
-                </p>
-            @endif
-
-            {{-- The receipt is the whole basis for approving a manual transfer,
-                 so it gets prominence rather than a buried link. --}}
-            @if ($deposit->proof_path)
-                <div class="mt-6 border-t border-white/5 pt-6">
-                    <h2 class="text-sm font-semibold text-white">Uploaded receipt</h2>
-
-                    @php $ext = strtolower(pathinfo($deposit->proof_path, PATHINFO_EXTENSION)); @endphp
-
-                    @if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'], true))
-                        <a href="{{ Storage::url($deposit->proof_path) }}" target="_blank" rel="noopener"
-                           class="mt-3 block overflow-hidden rounded-xl border border-white/10">
-                            <img src="{{ Storage::url($deposit->proof_path) }}"
-                                 alt="Payment receipt uploaded by the user"
-                                 class="max-h-96 w-full bg-ink-950 object-contain">
-                        </a>
-                        <p class="mt-2 text-xs text-slate-500">Click to open at full size.</p>
-                    @else
-                        <a href="{{ Storage::url($deposit->proof_path) }}" target="_blank" rel="noopener"
-                           class="btn-ghost mt-3">Open receipt (PDF)</a>
-                    @endif
-                </div>
-            @elseif ($deposit->channel === 'manual')
-                <p class="mt-5 rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
-                    No receipt was uploaded with this claim.
                 </p>
             @endif
         </section>

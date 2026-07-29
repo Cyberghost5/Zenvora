@@ -21,7 +21,7 @@
                             <th scope="col" class="px-4 py-3 font-medium">Daily</th>
                             <th scope="col" class="px-4 py-3 font-medium">Total</th>
                             <th scope="col" class="px-4 py-3 font-medium">Term</th>
-                            <th scope="col" class="px-4 py-3 font-medium">Range</th>
+                            <th scope="col" class="px-4 py-3 font-medium">Amount</th>
                             <th scope="col" class="px-4 py-3 font-medium">Capital</th>
                             <th scope="col" class="px-4 py-3 font-medium">Active now</th>
                             <th scope="col" class="px-4 py-3 font-medium">Status</th>
@@ -41,7 +41,7 @@
                                 <td class="tabular px-4 py-3 whitespace-nowrap text-slate-300">{{ $plan->totalRoiLabel() }}</td>
                                 <td class="px-4 py-3 whitespace-nowrap text-slate-300">{{ $plan->duration_days }}d</td>
                                 <td class="tabular px-4 py-3 whitespace-nowrap text-slate-400">
-                                    {{ $plan->min_amount->formatCompact() }} – {{ $plan->max_amount->formatCompact() }}
+                                    {{ $plan->min_amount->formatCompact() }}
                                 </td>
                                 <td class="px-4 py-3 whitespace-nowrap">
                                     <span class="{{ $plan->return_capital ? 'text-emerald-400' : 'text-slate-400' }}">

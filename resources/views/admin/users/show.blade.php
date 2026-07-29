@@ -233,6 +233,33 @@
                     <x-input-error for="user" />
                 </div>
             </div>
+
+            {{-- Password Reset --}}
+            <div class="card">
+                <h2 class="font-semibold text-white">Reset User Password</h2>
+                <p class="mt-1 text-sm text-slate-400">
+                    Automatically generate a new random password or type a custom password for this user.
+                </p>
+
+                <form method="POST" action="{{ route('admin.users.reset-password', $user) }}"
+                      class="mt-4 space-y-3"
+                      data-confirm="Reset password for {{ $user->name }}?">
+                    @csrf
+
+                    <div class="grid gap-3 sm:grid-cols-3 sm:items-end">
+                        <div class="sm:col-span-2">
+                            <label for="custom_password" class="label">Custom Password <span class="font-normal text-slate-500">(optional)</span></label>
+                            <input id="custom_password" name="password" type="text"
+                                   class="input font-mono" placeholder="Leave blank to auto-generate">
+                            <x-input-error for="password" />
+                        </div>
+
+                        <button type="submit" class="btn-primary w-full">
+                            Reset Password
+                        </button>
+                    </div>
+                </form>
+            </div>
         </section>
     </div>
 

@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable([
     'reference', 'user_id', 'channel', 'amount', 'fee', 'status',
     'gateway_reference', 'gateway_payload', 'coupon_id', 'proof_path',
-    'depositor_name', 'paid_to_account', 'paid_on',
+    'depositor_name', 'depositor_account', 'paid_to_account', 'paid_on',
     'reviewed_by', 'reviewed_at', 'rejection_reason', 'credited_at',
 ])]
 class Deposit extends Model

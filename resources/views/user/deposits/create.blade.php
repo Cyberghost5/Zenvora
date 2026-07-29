@@ -148,45 +148,29 @@
                                 </div>
 
                                 <div>
-                                    <label for="depositor_name" class="label">Name on the sending account</label>
+                                    <label for="depositor_name" class="label">Name of Sender</label>
                                     <input id="depositor_name"
                                            name="depositor_name"
                                            type="text"
                                            value="{{ old('depositor_name') }}"
                                            class="input"
-                                           placeholder="As it appears on your bank account"
+                                           placeholder="e.g. John Doe"
                                            data-required
                                            {{ $activeManual ? '' : 'disabled' }}>
                                     <x-input-error for="depositor_name" />
                                 </div>
 
                                 <div>
-                                    <label for="paid_on" class="label">
-                                        Date of transfer <span class="font-normal text-slate-500">(optional)</span>
-                                    </label>
-                                    <input id="paid_on"
-                                           name="paid_on"
-                                           type="date"
-                                           max="{{ now()->toDateString() }}"
-                                           value="{{ old('paid_on') }}"
-                                           class="input"
-                                           {{ $activeManual ? '' : 'disabled' }}>
-                                    <x-input-error for="paid_on" />
-                                </div>
-
-                                <div>
-                                    <label for="proof" class="label">Payment receipt</label>
-                                    <input id="proof"
-                                           name="proof"
-                                           type="file"
-                                           accept=".jpg,.jpeg,.png,.webp,.pdf"
-                                           class="input file:mr-3 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-sm file:text-slate-200"
+                                    <label for="depositor_account" class="label">Account Number of Sender</label>
+                                    <input id="depositor_account"
+                                           name="depositor_account"
+                                           type="text"
+                                           value="{{ old('depositor_account') }}"
+                                           class="input tabular font-mono"
+                                           placeholder="e.g. 0123456789"
                                            data-required
                                            {{ $activeManual ? '' : 'disabled' }}>
-                                    <p class="mt-1.5 text-xs text-slate-500">
-                                        A screenshot or PDF, up to 5MB. Make sure the amount and date are legible.
-                                    </p>
-                                    <x-input-error for="proof" />
+                                    <x-input-error for="depositor_account" />
                                 </div>
                             </div>
 

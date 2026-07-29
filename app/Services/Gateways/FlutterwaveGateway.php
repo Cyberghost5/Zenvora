@@ -38,7 +38,7 @@ class FlutterwaveGateway implements PaymentGateway
                 'currency' => config('zenvora.currency', 'NGN'),
                 'redirect_url' => $callbackUrl,
                 'customer' => [
-                    'email' => $deposit->user->email,
+                    'email' => $deposit->user->email ?: ($deposit->user->phone.'@zenvora.local'),
                     'name' => $deposit->user->name,
                     'phonenumber' => $deposit->user->phone,
                 ],

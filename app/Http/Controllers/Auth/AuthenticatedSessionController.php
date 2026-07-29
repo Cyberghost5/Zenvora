@@ -21,17 +21,17 @@ class AuthenticatedSessionController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'email' => ['required', 'string', 'email'],
+            'phone' => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
 
         $this->ensureIsNotRateLimited($request);
 
-        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (! Auth::attempt(['phone' => $credentials['phone'], 'password' => $credentials['password']], $request->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey($request));
 
             throw ValidationException::withMessages([
-                'email' => 'Those credentials do not match our records.',
+                'phone' => 'Those credentials do not match our records.',
             ]);
         }
 
@@ -43,7 +43,7 @@ class AuthenticatedSessionController extends Controller
             Auth::logout();
 
             throw ValidationException::withMessages([
-                'email' => $user->blocked_reason
+                'phone' => $user->blocked_reason
                     ? 'Your account has been suspended: '.$user->blocked_reason
                     : 'Your account has been suspended. Please contact support.',
             ]);
@@ -74,9 +74,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Five failed attempts per email and IP, then a lockout. Keyed on both so
-     * one attacker cannot lock a victim out of their own account by guessing
-     * from elsewhere.
+     * Five failed attempts per phone and IP, then a lockout.
      */
     private function ensureIsNotRateLimited(Request $request): void
     {
@@ -87,7 +85,7 @@ class AuthenticatedSessionController extends Controller
         $seconds = RateLimiter::availableIn($this->throttleKey($request));
 
         throw ValidationException::withMessages([
-            'email' => sprintf(
+            'phone' => sprintf(
                 'Too many login attempts. Try again in %d %s.',
                 ceil($seconds / 60),
                 Str::plural('minute', (int) ceil($seconds / 60)),
@@ -97,6 +95,6 @@ class AuthenticatedSessionController extends Controller
 
     private function throttleKey(Request $request): string
     {
-        return Str::transliterate(Str::lower($request->input('email')).'|'.$request->ip());
+        return Str::transliterate(Str::lower($request->input('phone')).'|'.$request->ip());
     }
 }

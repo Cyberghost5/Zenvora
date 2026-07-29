@@ -6,27 +6,27 @@
         @csrf
 
         <div>
-            <label for="email" class="label">Email address</label>
-            <input id="email"
-                   name="email"
-                   type="email"
-                   value="{{ old('email') }}"
+            <label for="phone" class="label">Phone number</label>
+            <input id="phone"
+                   name="phone"
+                   type="tel"
+                   value="{{ old('phone') }}"
                    required
                    autofocus
                    autocomplete="username"
-                   inputmode="email"
+                   inputmode="tel"
                    class="input"
-                   placeholder="you@example.com">
-            <x-input-error for="email" />
+                   placeholder="e.g. 08012345678">
+            <x-input-error for="phone" />
         </div>
 
         <div>
-            <div class="mb-1.5 flex items-baseline justify-between gap-3">
+            <!-- <div class="mb-1.5 flex items-baseline justify-between gap-3">
                 <label for="password" class="label !mb-0">Password</label>
                 <a href="{{ route('password.request') }}" class="text-sm text-brand-400 hover:text-brand-300">
                     Forgot password?
                 </a>
-            </div>
+            </div> -->
             <input id="password"
                    name="password"
                    type="password"

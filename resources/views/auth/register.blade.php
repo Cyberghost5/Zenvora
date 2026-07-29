@@ -29,18 +29,20 @@
             <x-input-error for="name" />
         </div>
 
-        <div>
-            <label for="email" class="label">Email address</label>
+        <!-- <div>
+            <label for="email" class="label">
+                Email address <span class="font-normal text-slate-500">(optional)</span>
+            </label>
             <input id="email" name="email" type="email" value="{{ old('email') }}"
-                   required autocomplete="username" inputmode="email" class="input" placeholder="you@example.com">
-            <p class="mt-1.5 text-xs text-slate-500">Used to sign in and to reset your password.</p>
+                   autocomplete="username" inputmode="email" class="input" placeholder="you@example.com">
+            <p class="mt-1.5 text-xs text-slate-500">Optional for notifications and account recovery.</p>
             <x-input-error for="email" />
-        </div>
+        </div> -->
 
         <div>
             <label for="phone" class="label">Phone number</label>
             <input id="phone" name="phone" type="tel" value="{{ old('phone') }}"
-                   required autocomplete="tel" inputmode="tel" class="input" placeholder="+234 800 000 0000">
+                   required autocomplete="tel" inputmode="tel" class="input" placeholder="0800 000 0000">
             <x-input-error for="phone" />
         </div>
 
@@ -48,7 +50,7 @@
             <label for="password" class="label">Password</label>
             <input id="password" name="password" type="password" required
                    autocomplete="new-password" class="input" placeholder="••••••••">
-            <p class="mt-1.5 text-xs text-slate-500">At least 8 characters, including a letter and a number.</p>
+            <p class="mt-1.5 text-xs text-slate-500">At least 6 characters.</p>
             <x-input-error for="password" />
         </div>
 

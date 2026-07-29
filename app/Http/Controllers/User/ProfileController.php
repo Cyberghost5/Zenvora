@@ -54,7 +54,7 @@ class ProfileController extends Controller
     {
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
-            'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
+            'password' => ['required', 'confirmed', 'string', 'min:6'],
         ], [
             'current_password.current_password' => 'That is not your current password.',
         ]);

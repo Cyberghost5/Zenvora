@@ -70,7 +70,7 @@
                                                    class="block truncate font-medium text-white hover:text-brand-300">
                                                     {{ $user->name }}
                                                 </a>
-                                                <span class="block truncate text-xs text-slate-500">{{ $user->email }}</span>
+                                                <span class="block truncate text-xs text-slate-500">{{ $user->email ?: $user->phone }}</span>
                                                 <span class="block font-mono text-xs text-slate-600">{{ $user->referral_code }}</span>
                                             </div>
                                         </div>
@@ -99,8 +99,18 @@
                                         </div>
                                     </td>
                                     <td class="px-4 py-3 text-right">
-                                        <a href="{{ route('admin.users.show', $user) }}"
-                                           class="btn-ghost !px-3 !py-1.5 text-xs">Manage</a>
+                                        <div class="flex items-center justify-end gap-2">
+                                            <form method="POST" action="{{ route('admin.users.reset-password', $user) }}"
+                                                  class="inline"
+                                                  data-confirm="Automatically generate and reset password for {{ $user->name }}?">
+                                                @csrf
+                                                <button type="submit" class="btn-ghost !px-2.5 !py-1 text-xs text-amber-300 hover:text-amber-200">
+                                                    Reset Pass
+                                                </button>
+                                            </form>
+                                            <a href="{{ route('admin.users.show', $user) }}"
+                                               class="btn-ghost !px-3 !py-1.5 text-xs">Manage</a>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

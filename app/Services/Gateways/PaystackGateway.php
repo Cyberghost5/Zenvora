@@ -32,7 +32,7 @@ class PaystackGateway implements PaymentGateway
             ->acceptJson()
             ->timeout(20)
             ->post(self::BASE.'/transaction/initialize', [
-                'email' => $deposit->user->email,
+                'email' => $deposit->user->email ?: ($deposit->user->phone.'@zenvora.local'),
                 // Paystack expects the smallest currency unit, which is exactly
                 // how the amount is already stored.
                 'amount' => $deposit->amount->minor,

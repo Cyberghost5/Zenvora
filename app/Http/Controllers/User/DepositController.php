@@ -112,20 +112,18 @@ class DepositController extends Controller
         $validated = $request->validate([
             'amount' => ['required', 'numeric', 'min:0.01'],
             'depositor_name' => ['required', 'string', 'max:120'],
-            'paid_on' => ['nullable', 'date', 'before_or_equal:today'],
-            'proof' => ['required', 'file', 'mimes:jpg,jpeg,png,webp,pdf', 'max:5120'],
+            'depositor_account' => ['required', 'string', 'max:50'],
         ], [
-            'proof.required' => 'Please attach a screenshot or PDF of your transfer receipt.',
-            'proof.max' => 'The receipt must be 5MB or smaller.',
+            'depositor_name.required' => 'Please enter the name of the sender.',
+            'depositor_account.required' => 'Please enter the account number of the sender.',
         ]);
 
         try {
             $deposit = $this->deposits->submitManualDeposit(
                 user: $request->user(),
                 amount: Money::fromMajor($validated['amount']),
-                proof: $request->file('proof'),
                 depositorName: $validated['depositor_name'],
-                paidOn: $validated['paid_on'] ?? null,
+                depositorAccount: $validated['depositor_account'],
             );
         } catch (Throwable $e) {
             return back()->withInput()->withErrors(['amount' => $e->getMessage()]);
