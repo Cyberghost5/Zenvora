@@ -30,8 +30,8 @@
                 <h3 class="text-xl font-bold text-white">{{ $title }}</h3>
             </div>
 
-            <div class="mt-4 text-sm leading-relaxed text-slate-300 whitespace-pre-line">
-                {!! nl2br(e($body)) !!}
+            <div class="mt-4 text-sm leading-relaxed text-slate-300 prose prose-invert max-w-none">
+                {!! $body !!}
             </div>
 
             <div class="mt-6 flex justify-end">

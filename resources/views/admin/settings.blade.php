@@ -385,12 +385,82 @@
                 </div>
 
                 <div>
-                    <label for="announcement_body" class="label">Announcement Message / Content</label>
-                    <textarea id="announcement_body" name="announcement_body" rows="4"
-                              placeholder="Write notice or promotional details here..."
-                              class="input">{{ old('announcement_body', $settings->string('announcement_body')) }}</textarea>
-                    <p class="mt-1.5 text-xs text-slate-500">Notice content shown to signed-in users on login.</p>
+                    <label class="label">Announcement Content (WYSIWYG Editor)</label>
+                    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+                    <style>
+                        .ql-toolbar.ql-snow {
+                            border-color: rgba(255, 255, 255, 0.15) !important;
+                            border-top-left-radius: 0.75rem;
+                            border-top-right-radius: 0.75rem;
+                            background-color: rgba(17, 23, 28, 0.7);
+                        }
+                        .ql-container.ql-snow {
+                            border-color: rgba(255, 255, 255, 0.15) !important;
+                            border-bottom-left-radius: 0.75rem;
+                            border-bottom-right-radius: 0.75rem;
+                            background-color: rgba(9, 14, 18, 0.5);
+                            color: #e2e8f0;
+                            font-size: 0.95rem;
+                        }
+                        html[data-theme="light"] .ql-toolbar.ql-snow {
+                            border-color: #cbd5e1 !important;
+                            background-color: #f8fafc;
+                        }
+                        html[data-theme="light"] .ql-container.ql-snow {
+                            border-color: #cbd5e1 !important;
+                            background-color: #ffffff;
+                            color: #0f172a;
+                        }
+                        .ql-stroke {
+                            stroke: #94a3b8 !important;
+                        }
+                        .ql-fill {
+                            fill: #94a3b8 !important;
+                        }
+                        .ql-picker {
+                            color: #94a3b8 !important;
+                        }
+                        .ql-editor {
+                            min-height: 160px;
+                        }
+                    </style>
+
+                    <div id="quill-announcement-editor">
+                        {!! old('announcement_body', $settings->string('announcement_body')) !!}
+                    </div>
+
+                    <input type="hidden" name="announcement_body" id="announcement_body" value="{{ old('announcement_body', $settings->string('announcement_body')) }}">
+                    <p class="mt-1.5 text-xs text-slate-500">Rich formatted message displayed to signed-in users on login.</p>
                     <x-input-error for="announcement_body" />
+
+                    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const container = document.getElementById('quill-announcement-editor');
+                            if (!container) return;
+
+                            const quill = new Quill('#quill-announcement-editor', {
+                                theme: 'snow',
+                                placeholder: 'Compose your announcement message here...',
+                                modules: {
+                                    toolbar: [
+                                        [{ 'header': [1, 2, 3, false] }],
+                                        ['bold', 'italic', 'underline', 'strike'],
+                                        [{ 'color': [] }, { 'background': [] }],
+                                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                        ['link', 'clean']
+                                    ]
+                                }
+                            });
+
+                            const hiddenInput = document.getElementById('announcement_body');
+                            const form = hiddenInput.closest('form');
+
+                            form.addEventListener('submit', function() {
+                                hiddenInput.value = quill.root.innerHTML;
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </section>
