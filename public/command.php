@@ -296,6 +296,7 @@ function runCommand(key, label, btn) {
       if (!data.success) out.classList.add('err-text');
     })
     .catch(err => {
+      console.log(err);
       entry.classList.add('error');
       entry.querySelector('.log-output').textContent = 'Request failed: ' + err.message;
     })
