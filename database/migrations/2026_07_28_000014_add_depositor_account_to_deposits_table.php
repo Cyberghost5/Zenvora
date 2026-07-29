@@ -8,9 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('deposits', function (Blueprint $table) {
-            $table->string('depositor_account', 50)->nullable()->after('depositor_name');
-        });
+        if (! Schema::hasColumn('deposits', 'depositor_account')) {
+            Schema::table('deposits', function (Blueprint $table) {
+                $table->string('depositor_account', 50)->nullable()->after('depositor_name');
+            });
+        }
     }
 
     public function down(): void
