@@ -16,13 +16,22 @@ class InvestmentController extends Controller
 {
     public function __construct(private readonly InvestmentService $investments) {}
 
+    public function plans(Request $request): View
+    {
+        $user = $request->user();
+
+        return view('user.plans.index', [
+            'wallet' => $user->ensureWallet(),
+            'plans' => Plan::query()->active()->ordered()->get(),
+        ]);
+    }
+
     public function index(Request $request): View
     {
         $user = $request->user();
 
         return view('user.investments.index', [
             'wallet' => $user->ensureWallet(),
-            'plans' => Plan::query()->active()->ordered()->get(),
             'investments' => $user->investments()->with('plan')->latest()->paginate(10),
         ]);
     }

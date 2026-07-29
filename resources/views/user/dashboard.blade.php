@@ -143,9 +143,9 @@
                             <thead class="bg-ink-900/80 text-xs uppercase tracking-wide text-slate-500">
                                 <tr>
                                     <th scope="col" class="px-4 py-3 font-medium">Plan</th>
+                                    <th scope="col" class="px-4 py-3 font-medium">Amount</th>
                                     <th scope="col" class="px-4 py-3 font-medium">Daily</th>
                                     <th scope="col" class="px-4 py-3 font-medium">Term</th>
-                                    <th scope="col" class="px-4 py-3 font-medium">Amount</th>
                                     <th scope="col" class="px-4 py-3 font-medium">Total Return</th>
                                     <th scope="col" class="px-4 py-3"><span class="sr-only">Action</span></th>
                                 </tr>
@@ -159,11 +159,11 @@
                                                 <p class="text-xs text-emerald-400">Capital returned</p>
                                             @endif
                                         </td>
-                                        <td class="tabular px-4 py-3 font-semibold text-brand-300">{{ $plan->dailyPayoutFor($plan->min_amount)->formatWithSymbol() }}</td>
-                                        <td class="px-4 py-3 whitespace-nowrap text-slate-300">{{ $plan->durationLabel() }}</td>
                                         <td class="tabular px-4 py-3 whitespace-nowrap text-slate-400">
                                             {{ $plan->min_amount->formatWithSymbol() }}
                                         </td>
+                                        <td class="tabular px-4 py-3 font-semibold text-brand-300">{{ $plan->dailyPayoutFor($plan->min_amount)->formatWithSymbol() }}</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-slate-300">{{ $plan->durationLabel() }}</td>
                                         <td class="tabular px-4 py-3 font-semibold text-brand-300">{{ $plan->totalReturnFor($plan->min_amount)->formatWithSymbol() }}</td>
                                         <td class="px-4 py-3 text-right">
                                             <a href="{{ route('investments.index') }}#plan-{{ $plan->id }}"

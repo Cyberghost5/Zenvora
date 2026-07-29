@@ -11,7 +11,8 @@
 
     $nav = [
         ['route' => 'dashboard', 'label' => 'Dashboard', 'match' => 'dashboard'],
-        ['route' => 'investments.index', 'label' => 'Investments', 'match' => 'investments.*'],
+        ['route' => 'plans.index', 'label' => 'Investment Plans', 'match' => 'plans.*'],
+        ['route' => 'investments.index', 'label' => 'My Investments', 'match' => 'investments.*'],
         ['route' => 'deposits.index', 'label' => 'Fund wallet', 'match' => 'deposits.*', 'badge' => $pendingDeposits],
         ['route' => 'withdrawals.index', 'label' => 'Withdraw', 'match' => 'withdrawals.*', 'badge' => $pendingWithdrawals],
         ['route' => 'referrals', 'label' => 'Referrals', 'match' => 'referrals'],
@@ -106,7 +107,7 @@
         </aside>
 
         <div class="flex min-w-0 flex-1 flex-col lg:pl-64">
-            <main id="main" class="flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+            <main id="main" class="flex-1 px-4 py-6 pb-24 sm:px-6 sm:py-8 lg:px-8 lg:pb-8">
                 <div class="mx-auto max-w-6xl">
                     @if ($heading)
                         <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -129,7 +130,7 @@
                 </div>
             </main>
 
-            <footer class="border-t border-white/5 px-4 py-5 text-xs text-slate-500 sm:px-6 lg:px-8">
+            <footer class="border-t border-white/5 px-4 py-5 text-xs text-slate-500 pb-20 sm:px-6 lg:px-8 lg:pb-5">
                 <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2">
                     <p>&copy; {{ date('Y') }} {{ config('app.name') }}</p>
                     <p class="flex gap-3">
@@ -140,5 +141,6 @@
             </footer>
         </div>
     </div>
+    <x-mobile-nav />
     <x-announcement-popup />
 </x-layouts.base>

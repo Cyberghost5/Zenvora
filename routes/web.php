@@ -84,7 +84,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('deposits/{deposit}', [User\DepositController::class, 'show'])->name('deposits.show');
 
-    // Investments
+    // Plans & Investments
+    Route::get('plans', [User\InvestmentController::class, 'plans'])->name('plans.index');
     Route::get('investments', [User\InvestmentController::class, 'index'])->name('investments.index');
     Route::post('investments', [User\InvestmentController::class, 'store'])
         ->middleware('throttle:20,1')
