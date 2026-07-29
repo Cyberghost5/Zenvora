@@ -73,6 +73,7 @@ if ($isAjax && isset($_GET['run'])) {
         'output'    => $output !== '' ? $output : '(no output)',
         'elapsed'   => $elapsed . 's',
     ]);
+    var_dump($status, $output, $elapsed);
     exit;
 }
 
