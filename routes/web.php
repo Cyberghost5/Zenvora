@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', LandingController::class)->name('home');
+// Route::get('/', LandingController::class)->name('home');
+Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
 
 Route::view('/terms', 'legal.terms')->name('terms');
 Route::view('/privacy', 'legal.privacy')->name('privacy');
