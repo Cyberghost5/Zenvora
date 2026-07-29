@@ -30,7 +30,6 @@
                                 <input type="radio"
                                        name="channel"
                                        value="{{ $channel['key'] }}"
-                                       @checked(old('channel', $channels[0]['key']) === $channel['key'])
                                        class="mt-0.5 h-4 w-4 shrink-0 border-white/20 bg-ink-950 text-brand-500 focus:ring-brand-500/40">
                                 <span class="min-w-0">
                                     <span class="block text-sm font-medium text-white">{{ $channel['label'] }}</span>
