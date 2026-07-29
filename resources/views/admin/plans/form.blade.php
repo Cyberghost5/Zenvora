@@ -18,6 +18,7 @@
 
     <form method="POST"
           action="{{ $editing ? route('admin.plans.update', $plan) : route('admin.plans.store') }}"
+          enctype="multipart/form-data"
           class="grid gap-6 lg:grid-cols-3">
         @csrf
         @if ($editing)
@@ -34,6 +35,25 @@
                         <input id="name" name="name" type="text" value="{{ old('name', $plan->name) }}"
                                required class="input" placeholder="e.g. Growth">
                         <x-input-error for="name" />
+                    </div>
+
+                    <div>
+                        <label for="image" class="label">
+                            Plan Image <span class="font-normal text-slate-500">(optional)</span>
+                        </label>
+                        @if ($editing && $plan->imageUrl())
+                            <div class="mb-3 flex items-center gap-4 rounded-xl border border-white/10 bg-ink-950/50 p-3">
+                                <img src="{{ $plan->imageUrl() }}" alt="{{ $plan->name }}" class="h-16 w-16 object-cover rounded-lg border border-white/10">
+                                <div>
+                                    <p class="text-xs font-medium text-white">Current Image</p>
+                                    <p class="text-xs text-slate-400">Upload a new image below to replace it.</p>
+                                </div>
+                            </div>
+                        @endif
+                        <input id="image" name="image" type="file" accept="image/*"
+                               class="input file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-500/20 file:text-brand-300 hover:file:bg-brand-500/30">
+                        <p class="mt-1.5 text-xs text-slate-500">Supports JPG, PNG, WEBP or SVG (Max 5MB).</p>
+                        <x-input-error for="image" />
                     </div>
 
                     <div>

@@ -10,12 +10,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
-    'name', 'slug', 'tagline', 'description', 'min_amount', 'max_amount',
+    'name', 'slug', 'tagline', 'description', 'image_path', 'min_amount', 'max_amount',
     'daily_roi_bp', 'fixed_daily_payout', 'duration_days', 'return_capital', 'referral_eligible',
     'is_active', 'sort_order',
 ])]
 class Plan extends Model
 {
+    public function imageUrl(): ?string
+    {
+        if (! $this->image_path) {
+            return null;
+        }
+
+        if (str_starts_with($this->image_path, 'http://') || str_starts_with($this->image_path, 'https://')) {
+            return $this->image_path;
+        }
+
+        return asset($this->image_path);
+    }
+
     protected function casts(): array
     {
         return [

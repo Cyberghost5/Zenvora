@@ -2,27 +2,6 @@
                heading="Investment Plans"
                subheading="Choose a plan to invest your deposit balance and earn daily returns.">
 
-    <x-slot:actions>
-        <a href="{{ route('deposits.create') }}" class="btn-ghost">Fund wallet</a>
-        <a href="{{ route('investments.index') }}" class="btn-primary">My Running Investments</a>
-    </x-slot:actions>
-
-    <div class="grid gap-4 sm:grid-cols-3">
-        <x-stat label="Available to invest"
-                :value="$wallet->deposit_balance->formatWithSymbol()"
-                hint="Your deposit balance."
-                tone="brand" />
-
-        <x-stat label="Currently invested"
-                :value="$wallet->total_invested->formatWithSymbol()"
-                hint="Lifetime total placed into plans." />
-
-        <x-stat label="Returns earned"
-                :value="$wallet->total_roi_earned->formatWithSymbol()"
-                hint="Credited to your withdrawable balance."
-                tone="positive" />
-    </div>
-
     @if ($wallet->deposit_balance->isZero())
         <div class="mt-6 flex flex-wrap items-center gap-3 rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
             <span>Your deposit balance is empty. Fund your wallet to subscribe to an investment plan.</span>
@@ -47,7 +26,13 @@
                     @endphp
 
                     <div id="plan-{{ $plan->id }}"
-                         class="flex flex-col rounded-2xl border border-white/10 bg-ink-900/70 p-6 transition hover:border-brand-500/30">
+                         class="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-ink-900/70 p-6 transition hover:border-brand-500/30">
+                        @if ($plan->imageUrl())
+                            <div class="mb-4 overflow-hidden rounded-xl border border-white/10 bg-ink-950/50">
+                                <img src="{{ $plan->imageUrl() }}" alt="{{ $plan->name }}" class="h-44 w-full object-cover transition duration-300 hover:scale-105">
+                            </div>
+                        @endif
+
                         <div class="flex items-start justify-between gap-3">
                             <div>
                                 <h3 class="text-lg font-semibold text-white">{{ $plan->name }}</h3>

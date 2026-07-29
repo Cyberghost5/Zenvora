@@ -32,8 +32,19 @@
                         @foreach ($plans as $plan)
                             <tr class="bg-ink-900/40">
                                 <td class="px-4 py-3">
-                                    <p class="font-medium text-white">{{ $plan->name }}</p>
-                                    <p class="font-mono text-xs text-slate-500">{{ $plan->slug }}</p>
+                                    <div class="flex items-center gap-3">
+                                        @if ($plan->imageUrl())
+                                            <img src="{{ $plan->imageUrl() }}" alt="{{ $plan->name }}" class="h-10 w-10 shrink-0 rounded-lg object-cover border border-white/10">
+                                        @else
+                                            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/5 text-xs text-slate-500 font-bold uppercase">
+                                                {{ substr($plan->name, 0, 2) }}
+                                            </span>
+                                        @endif
+                                        <div>
+                                            <p class="font-medium text-white">{{ $plan->name }}</p>
+                                            <p class="font-mono text-xs text-slate-500">{{ $plan->slug }}</p>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="tabular px-4 py-3 whitespace-nowrap text-slate-400">
                                     {{ $plan->min_amount->formatWithSymbol() }}

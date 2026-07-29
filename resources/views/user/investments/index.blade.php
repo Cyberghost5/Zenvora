@@ -2,27 +2,6 @@
                heading="My Running Investments"
                subheading="Track all your running active and completed investment subscriptions.">
 
-    <x-slot:actions>
-        <a href="{{ route('plans.index') }}" class="btn-primary">Browse Investment Plans</a>
-        <a href="{{ route('deposits.create') }}" class="btn-ghost">Fund wallet</a>
-    </x-slot:actions>
-
-    <div class="grid gap-4 sm:grid-cols-3">
-        <x-stat label="Available to invest"
-                :value="$wallet->deposit_balance->formatWithSymbol()"
-                hint="Your deposit balance."
-                tone="brand" />
-
-        <x-stat label="Currently invested"
-                :value="$wallet->total_invested->formatWithSymbol()"
-                hint="Lifetime total placed into plans." />
-
-        <x-stat label="Returns earned"
-                :value="$wallet->total_roi_earned->formatWithSymbol()"
-                hint="Credited to your withdrawable balance."
-                tone="positive" />
-    </div>
-
     {{-- ---------------------------------------------------------------- --}}
     {{-- Running & Completed Investments History                          --}}
     {{-- ---------------------------------------------------------------- --}}

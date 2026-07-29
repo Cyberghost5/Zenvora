@@ -118,6 +118,7 @@ class PlanController extends Controller
             'name' => ['required', 'string', 'max:80'],
             'tagline' => ['nullable', 'string', 'max:160'],
             'description' => ['nullable', 'string', 'max:1000'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,svg', 'max:5120'],
             'min_amount' => ['required', 'numeric', 'min:0.01'],
             'max_amount' => ['nullable', 'numeric', 'gte:min_amount'],
             'daily_roi_percent' => ['required', 'numeric', 'min:0.01', 'max:100'],
@@ -133,16 +134,26 @@ class PlanController extends Controller
             ],
         ], [
             'max_amount.gte' => 'The maximum must be at least the minimum.',
+            'image.image' => 'The uploaded file must be a valid image.',
         ]);
 
         $minMajor = $validated['min_amount'];
         $maxMajor = $validated['max_amount'] ?? $minMajor;
+
+        $imagePath = $plan?->image_path;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time().'_'.Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)).'.'.$file->getClientOriginalExtension();
+            $file->move(public_path('uploads/plans'), $filename);
+            $imagePath = 'uploads/plans/'.$filename;
+        }
 
         return [
             'name' => $validated['name'],
             'slug' => ($validated['slug'] ?? null) ?: $this->uniqueSlug($validated['name'], $plan),
             'tagline' => $validated['tagline'] ?? null,
             'description' => $validated['description'] ?? null,
+            'image_path' => $imagePath,
             'min_amount' => Money::fromMajor($minMajor),
             'max_amount' => Money::fromMajor($maxMajor),
 
