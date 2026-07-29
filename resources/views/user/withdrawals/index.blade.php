@@ -31,10 +31,10 @@
                 'bg-emerald-400' => $window->isOpen(),
                 'bg-amber-400' => ! $window->isOpen(),
             ])></span>
-            <span class="font-semibold">
+            <span class="font-semibold text-emerald-400">
                 {{ $window->isOpen() ? 'The withdrawal window is open' : 'The withdrawal window is closed' }}
             </span>
-            <span class="text-xs opacity-80">&middot; {{ $window->summary() }}</span>
+            <span class="text-xs opacity-80 text-emerald-400">&middot; {{ $window->summary() }}</span>
         </div>
 
         @if ($reason = $window->closedReason())
