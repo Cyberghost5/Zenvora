@@ -18,10 +18,10 @@
                     <thead class="bg-ink-900/80 text-xs uppercase tracking-wide text-slate-500">
                         <tr>
                             <th scope="col" class="px-4 py-3 font-medium">Plan</th>
-                            <th scope="col" class="px-4 py-3 font-medium">Daily</th>
-                            <th scope="col" class="px-4 py-3 font-medium">Total</th>
-                            <th scope="col" class="px-4 py-3 font-medium">Term</th>
                             <th scope="col" class="px-4 py-3 font-medium">Amount</th>
+                            <th scope="col" class="px-4 py-3 font-medium">Daily</th>
+                            <th scope="col" class="px-4 py-3 font-medium">Term</th>
+                            <th scope="col" class="px-4 py-3 font-medium">Total</th>
                             <th scope="col" class="px-4 py-3 font-medium">Capital</th>
                             <th scope="col" class="px-4 py-3 font-medium">Active now</th>
                             <th scope="col" class="px-4 py-3 font-medium">Status</th>
@@ -35,14 +35,14 @@
                                     <p class="font-medium text-white">{{ $plan->name }}</p>
                                     <p class="font-mono text-xs text-slate-500">{{ $plan->slug }}</p>
                                 </td>
-                                <td class="tabular px-4 py-3 font-semibold whitespace-nowrap text-brand-300">
-                                    {{ $plan->dailyRoiLabel() }}
-                                </td>
-                                <td class="tabular px-4 py-3 whitespace-nowrap text-slate-300">{{ $plan->totalRoiLabel() }}</td>
-                                <td class="px-4 py-3 whitespace-nowrap text-slate-300">{{ $plan->duration_days }}d</td>
                                 <td class="tabular px-4 py-3 whitespace-nowrap text-slate-400">
-                                    {{ $plan->min_amount->formatCompact() }}
+                                    {{ $plan->min_amount->formatWithSymbol() }}
                                 </td>
+                                <td class="tabular px-4 py-3 font-semibold whitespace-nowrap text-brand-300">
+                                    {{ $plan->dailyPayoutFor($plan->min_amount)->formatWithSymbol() }}
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap text-slate-300">{{ $plan->duration_days }}d</td>
+                                <td class="tabular px-4 py-3 whitespace-nowrap text-slate-300">{{ $plan->totalReturnFor($plan->min_amount)->formatWithSymbol() }}</td>
                                 <td class="px-4 py-3 whitespace-nowrap">
                                     <span class="{{ $plan->return_capital ? 'text-emerald-400' : 'text-slate-400' }}">
                                         {{ $plan->return_capital ? 'Returned' : 'In payout' }}
