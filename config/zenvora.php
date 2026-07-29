@@ -46,6 +46,11 @@ return [
         'manual_account_name' => '',
         'manual_instructions' => 'Transfer the exact amount to the account above, then upload your payment receipt. Your wallet is credited once an administrator confirms the transfer.',
 
+        // Announcement Notice Popup
+        'announcement_enabled' => false,
+        'announcement_title' => 'Important Notice',
+        'announcement_body' => 'Welcome back to Zenvora! Check out our latest investment plans and returns.',
+
         // Site chrome
         'site_name' => 'Zenvora',
         'support_email' => 'support@zenvora.test',

@@ -353,6 +353,49 @@
         </section>
 
         {{-- ------------------------------------------------------------ --}}
+        {{-- Announcement Popup Notice                                     --}}
+        {{-- ------------------------------------------------------------ --}}
+        <section class="card">
+            <div class="flex items-start justify-between gap-4">
+                <div>
+                    <h2 class="text-lg font-semibold text-white">Login Announcement Popup</h2>
+                    <p class="mt-1 text-sm text-slate-400">
+                        Display a modal announcement notice to users when they sign in or open their dashboard.
+                    </p>
+                </div>
+
+                <label class="relative inline-flex cursor-pointer items-center">
+                    <input type="checkbox" name="announcement_enabled" value="1"
+                           @checked(old('announcement_enabled', $settings->boolean('announcement_enabled')))
+                           class="peer sr-only">
+                    <div class="h-6 w-11 rounded-full bg-ink-950/85 ring-1 ring-inset ring-white/10 transition
+                                peer-checked:bg-brand-500 peer-checked:ring-brand-400
+                                after:absolute after:top-0.5 after:left-0.5 after:h-5 after:w-5 after:rounded-full
+                                after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-5"></div>
+                </label>
+            </div>
+
+            <div class="mt-5 space-y-4">
+                <div>
+                    <label for="announcement_title" class="label">Announcement Title</label>
+                    <input id="announcement_title" name="announcement_title" type="text"
+                           value="{{ old('announcement_title', $settings->string('announcement_title', 'Important Notice')) }}"
+                           placeholder="e.g. Welcome to Zenvora!" class="input">
+                    <x-input-error for="announcement_title" />
+                </div>
+
+                <div>
+                    <label for="announcement_body" class="label">Announcement Message / Content</label>
+                    <textarea id="announcement_body" name="announcement_body" rows="4"
+                              placeholder="Write notice or promotional details here..."
+                              class="input">{{ old('announcement_body', $settings->string('announcement_body')) }}</textarea>
+                    <p class="mt-1.5 text-xs text-slate-500">Notice content shown to signed-in users on login.</p>
+                    <x-input-error for="announcement_body" />
+                </div>
+            </div>
+        </section>
+
+        {{-- ------------------------------------------------------------ --}}
         {{-- Site                                                         --}}
         {{-- ------------------------------------------------------------ --}}
         <section class="card">

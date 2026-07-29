@@ -69,6 +69,11 @@ class SettingController extends Controller
             'manual_account_name' => ['nullable', 'string', 'max:120'],
             'manual_instructions' => ['nullable', 'string', 'max:1000'],
 
+            // Announcement Notice Popup
+            'announcement_enabled' => ['nullable', 'boolean'],
+            'announcement_title' => ['nullable', 'string', 'max:120'],
+            'announcement_body' => ['nullable', 'string', 'max:2000'],
+
             // Site
             'site_name' => ['required', 'string', 'max:60'],
             'support_email' => ['required', 'email', 'max:120'],
@@ -124,6 +129,10 @@ class SettingController extends Controller
             'manual_account_name' => $validated['manual_account_name'] ?? '',
             'manual_instructions' => $validated['manual_instructions'] ?? '',
 
+            'announcement_enabled' => $request->boolean('announcement_enabled'),
+            'announcement_title' => $validated['announcement_title'] ?? 'Welcome to Zenvora',
+            'announcement_body' => $validated['announcement_body'] ?? '',
+
             'site_name' => $validated['site_name'],
             'support_email' => $validated['support_email'],
             'support_phone' => $validated['support_phone'] ?? '',
@@ -153,6 +162,7 @@ class SettingController extends Controller
             'withdrawal_days', 'withdrawal_opens_at', 'withdrawal_closes_at', 'withdrawal_timezone',
             'referral_enabled', 'referral_tier_1_bp', 'referral_tier_2_bp', 'referral_tier_3_bp',
             'manual_bank_name', 'manual_account_number', 'manual_account_name',
+            'announcement_enabled', 'announcement_title', 'announcement_body',
             'site_name', 'support_email', 'support_phone',
         ];
 

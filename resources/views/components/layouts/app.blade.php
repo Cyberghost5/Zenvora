@@ -140,4 +140,5 @@
             </footer>
         </div>
     </div>
+    <x-announcement-popup />
 </x-layouts.base>
