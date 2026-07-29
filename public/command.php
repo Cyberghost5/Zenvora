@@ -281,8 +281,10 @@ function runCommand(key, label, btn) {
   const url = `?secret=${encodeURIComponent(SECRET)}&run=1&cmd=${encodeURIComponent(key)}`;
 
   fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+  // console log the entire message
     .then(r => r.json())
     .then(data => {
+      console.log(data);
       entry.classList.add(data.success ? 'success' : 'error');
       entry.querySelector('.log-meta').innerHTML = `
         <span class="cmd-label">▶ ${escHtml(label)}</span>
