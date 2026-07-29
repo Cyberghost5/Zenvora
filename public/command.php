@@ -281,10 +281,10 @@ function runCommand(key, label, btn) {
   const url = `?secret=${encodeURIComponent(SECRET)}&run=1&cmd=${encodeURIComponent(key)}`;
 
   fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-  // console log the entire message
+  // console log all network errors and response data
     .then(r => r.json())
     .then(data => {
-      console.log(data);
+      console.log('Command response:', data);
       entry.classList.add(data.success ? 'success' : 'error');
       entry.querySelector('.log-meta').innerHTML = `
         <span class="cmd-label">▶ ${escHtml(label)}</span>
@@ -296,7 +296,7 @@ function runCommand(key, label, btn) {
       if (!data.success) out.classList.add('err-text');
     })
     .catch(err => {
-      console.log(data);
+      console.error('Network error:', err);
       entry.classList.add('error');
       entry.querySelector('.log-output').textContent = 'Request failed: ' + err.message;
     })
