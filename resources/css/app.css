@@ -1,0 +1,306 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+/*
+ * Zenvora runs dark-only. A single scheme keeps the money figures at a
+ * consistent contrast everywhere -- a balance that reads as confident on one
+ * background and washed out on another erodes trust in the number itself.
+ */
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Brand palette: Base color #44b4a7 */
+    --color-brand-50: oklch(0.97 0.02 183);
+    --color-brand-100: oklch(0.94 0.04 183);
+    --color-brand-200: oklch(0.88 0.07 183);
+    --color-brand-300: oklch(0.80 0.09 183);
+    --color-brand-400: oklch(0.74 0.10 183); /* #52c5b9 */
+    --color-brand-500: oklch(0.69 0.10 183); /* #44b4a7 (Base Brand) */
+    --color-brand-600: oklch(0.60 0.09 183); /* #339c90 (Hover) */
+    --color-brand-700: oklch(0.50 0.08 183); /* #2a7e75 */
+    --color-brand-800: oklch(0.40 0.07 183);
+    --color-brand-900: oklch(0.30 0.05 183);
+
+    /* Neutral surfaces, warmed very slightly so large dark areas do not read blue. */
+    --color-ink-950: oklch(0.16 0.012 250);
+    --color-ink-900: oklch(0.2 0.014 250);
+    --color-ink-850: oklch(0.24 0.014 250);
+    --color-ink-800: oklch(0.28 0.014 250);
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        /* Stops the fixed header from covering an anchor target. */
+        scroll-padding-top: 5rem;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        @apply bg-ink-950 text-slate-200 antialiased;
+    }
+
+    /* Tabular figures so amounts in a column line up digit for digit. */
+    .tabular {
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* Visible focus for keyboard users on every interactive element. */
+    :focus-visible {
+        @apply outline-2 outline-offset-2 outline-brand-400;
+    }
+}
+
+@layer components {
+    .card {
+        @apply rounded-2xl border border-white/10 bg-ink-900/70 p-5 sm:p-6;
+    }
+
+    .label {
+        @apply mb-1.5 block text-sm font-medium text-slate-300;
+    }
+
+    .input {
+        @apply w-full rounded-xl border border-white/10 bg-ink-950/60 px-4 py-2.5 text-slate-100
+               placeholder:text-slate-500
+               focus:border-brand-400 focus:ring-2 focus:ring-brand-500/25 focus:outline-none
+               disabled:opacity-50;
+    }
+
+    /*
+     * Tailwind 4 will not let @apply reference another custom class, so the
+     * shared button styles are declared once across all four selectors and each
+     * variant then only contributes its colours. This keeps `btn-primary`
+     * usable on its own in markup, with no need for `class="btn btn-primary"`.
+     */
+    .btn,
+    .btn-primary,
+    .btn-ghost,
+    .btn-danger {
+        @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+               transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed
+               disabled:opacity-60;
+    }
+
+    .btn-primary {
+        @apply bg-brand-500 text-ink-950 hover:bg-brand-400 active:bg-brand-600;
+    }
+
+    .btn-ghost {
+        @apply border border-white/10 text-slate-200 hover:border-white/25 hover:bg-white/5;
+    }
+
+    .btn-danger {
+        @apply bg-rose-600 text-white hover:bg-rose-500;
+    }
+
+    .pill {
+        @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset;
+    }
+}
+
+/* ----------------------------------------------------------------- */
+/* Light Mode Theme Overrides                                        */
+/* ----------------------------------------------------------------- */
+html[data-theme="light"] {
+    color-scheme: light;
+}
+
+html[data-theme="light"] body {
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+/* Surfaces & Containers */
+html[data-theme="light"] .card {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 1px 3px 0 rgb(15 23 42 / 0.05), 0 1px 2px -1px rgb(15 23 42 / 0.05) !important;
+}
+
+html[data-theme="light"] aside {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] header {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] footer {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* Dark Background Utilities Overrides */
+html[data-theme="light"] .bg-ink-950,
+html[data-theme="light"] .bg-ink-900,
+html[data-theme="light"] .bg-ink-850,
+html[data-theme="light"] .bg-ink-800,
+html[data-theme="light"] .bg-ink-950\/40,
+html[data-theme="light"] .bg-ink-950\/50,
+html[data-theme="light"] .bg-ink-950\/60,
+html[data-theme="light"] .bg-ink-950\/85,
+html[data-theme="light"] .bg-ink-900\/30,
+html[data-theme="light"] .bg-ink-900\/40,
+html[data-theme="light"] .bg-ink-900\/50,
+html[data-theme="light"] .bg-ink-900\/60,
+html[data-theme="light"] .bg-ink-900\/70,
+html[data-theme="light"] .bg-white\/5,
+html[data-theme="light"] .bg-white\/10 {
+    background-color: #f1f5f9 !important;
+}
+
+/* Gradients Override for Light Mode */
+html[data-theme="light"] .bg-gradient-to-br,
+html[data-theme="light"] .bg-gradient-to-b {
+    background-image: linear-gradient(to bottom right, #f0fdf4, #ffffff, #f8fafc) !important;
+}
+
+/* Border Utilities Overrides */
+html[data-theme="light"] .border-white\/5,
+html[data-theme="light"] .border-white\/10,
+html[data-theme="light"] .border-white\/20,
+html[data-theme="light"] .border-white\/25,
+html[data-theme="light"] .divide-white\/5 > :not([hidden]) ~ :not([hidden]) {
+    border-color: #e2e8f0 !important;
+}
+
+/* Typography & Text Contrast Overrides */
+html[data-theme="light"] .text-white {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .text-slate-100,
+html[data-theme="light"] .text-slate-200,
+html[data-theme="light"] .text-slate-300 {
+    color: #1e293b !important;
+}
+
+html[data-theme="light"] .text-slate-400,
+html[data-theme="light"] .text-slate-500 {
+    color: #64748b !important;
+}
+
+html[data-theme="light"] .text-slate-600 {
+    color: #475569 !important;
+}
+
+/* Financial Accent Colors for High Contrast on Light Backgrounds */
+html[data-theme="light"] .text-brand-100,
+html[data-theme="light"] .text-brand-200,
+html[data-theme="light"] .text-brand-300,
+html[data-theme="light"] .text-brand-400 {
+    color: #44b4a7 !important; /* Base Brand #44b4a7 */
+}
+
+html[data-theme="light"] .text-emerald-400 {
+    color: #059669 !important; /* Emerald 600 */
+}
+
+html[data-theme="light"] .text-amber-200,
+html[data-theme="light"] .text-amber-300,
+html[data-theme="light"] .text-amber-400 {
+    color: #d97706 !important; /* Amber 600 */
+}
+
+html[data-theme="light"] .text-rose-200,
+html[data-theme="light"] .text-rose-400 {
+    color: #e11d48 !important; /* Rose 600 */
+}
+
+/* Form Controls & Inputs */
+html[data-theme="light"] .label {
+    color: #334155 !important;
+}
+
+html[data-theme="light"] .input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .input::placeholder,
+html[data-theme="light"] textarea::placeholder {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="light"] .input:focus,
+html[data-theme="light"] select:focus,
+html[data-theme="light"] textarea:focus {
+    border-color: #44b4a7 !important;
+    box-shadow: 0 0 0 2px rgba(68, 180, 167, 0.25) !important;
+}
+
+html[data-theme="light"] input[type="checkbox"],
+html[data-theme="light"] input[type="radio"] {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* Buttons & Navigation Pills */
+html[data-theme="light"] .btn-primary {
+    background-color: #44b4a7 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .btn-primary:hover {
+    background-color: #339c90 !important;
+}
+
+html[data-theme="light"] .btn-ghost {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #334155 !important;
+}
+
+html[data-theme="light"] .btn-ghost:hover {
+    background-color: #f1f5f9 !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .pill {
+    background-color: #f1f5f9;
+    color: #334155;
+    box-shadow: inset 0 0 0 1px #cbd5e1;
+}
+
+html[data-theme="light"] .dark-toggle-btn {
+    border-color: #cbd5e1 !important;
+    background-color: #ffffff !important;
+    color: #334155 !important;
+}
+
+html[data-theme="light"] .dark-toggle-btn:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+/* Tables & Data Lists */
+html[data-theme="light"] table {
+    background-color: #ffffff !important;
+}
+
+html[data-theme="light"] th {
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    border-bottom-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] td {
+    color: #0f172a !important;
+    border-bottom-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] tr:hover td {
+    background-color: #f8fafc !important;
+}
+
+
