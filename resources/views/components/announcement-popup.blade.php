@@ -52,13 +52,13 @@
             const storageKey = 'zenvora_notice_dismissed_' + hash;
 
             if (!sessionStorage.getItem(storageKey)) {
-                modal.classList.remove('hidden');
+                // modal.classList.remove('hidden');
             }
 
             window.dismissAnnouncementModal = function() {
                 if (modal) {
                     // modal.classList.add('hidden');
-                    // sessionStorage.setItem(storageKey, 'true');
+                    sessionStorage.setItem(storageKey, 'true');
                 }
             };
         })();
