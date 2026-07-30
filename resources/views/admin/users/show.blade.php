@@ -88,26 +88,60 @@
                 </div>
             </dl>
 
-            <h3 class="mt-5 border-t border-white/5 pt-5 text-sm font-semibold text-white">Payout accounts</h3>
+            <h3 class="mt-5 border-t border-white/5 pt-5 text-sm font-semibold text-white flex items-center justify-between">
+                <span>Payout Account</span>
+                <span class="pill bg-brand-500/10 text-brand-300 ring-brand-500/20 text-[10px]">Admin Editable</span>
+            </h3>
 
-            @if ($user->bankAccounts->isEmpty())
-                <p class="mt-2 text-sm text-slate-500">None saved.</p>
+            @php
+                $primaryAccount = $user->bankAccounts->first();
+            @endphp
+
+            @if ($primaryAccount)
+                <div class="mt-2 rounded-lg bg-ink-950/50 p-3 text-sm">
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="font-medium text-white">{{ $primaryAccount->bank_name }}</span>
+                        <span class="pill bg-emerald-500/10 text-emerald-400 ring-emerald-500/20 text-[10px]">Active</span>
+                    </div>
+                    <span class="tabular block font-mono text-sm text-brand-300 font-semibold mt-0.5">{{ $primaryAccount->account_number }}</span>
+                    <span class="block text-xs text-slate-400 mt-0.5">{{ $primaryAccount->account_name }}</span>
+                </div>
             @else
-                <ul class="mt-2 space-y-2 text-sm">
-                    @foreach ($user->bankAccounts as $account)
-                        <li class="rounded-lg bg-ink-950/50 px-3 py-2">
-                            <div class="flex items-center justify-between gap-2">
-                                <span class="font-medium text-white">{{ $account->bank_name }}</span>
-                                @if ($account->is_primary)
-                                    <span class="pill bg-brand-500/10 text-brand-300 ring-brand-500/20">Default</span>
-                                @endif
-                            </div>
-                            <span class="tabular block font-mono text-xs text-slate-400">{{ $account->account_number }}</span>
-                            <span class="block text-xs text-slate-500">{{ $account->account_name }}</span>
-                        </li>
-                    @endforeach
-                </ul>
+                <p class="mt-2 text-xs text-slate-500">No bank account set by user yet.</p>
             @endif
+
+            <form method="POST" action="{{ route('admin.users.bank-account', $user) }}" class="mt-4 space-y-3 border-t border-white/5 pt-3">
+                @csrf
+                <p class="text-xs font-medium text-slate-300">{{ $primaryAccount ? 'Update Bank Account Details' : 'Set Bank Account for User' }}</p>
+
+                <div>
+                    <label for="admin_bank_name" class="label text-xs">Bank name</label>
+                    <input id="admin_bank_name" name="bank_name" type="text"
+                           value="{{ old('bank_name', $primaryAccount?->bank_name) }}"
+                           required class="input !py-1.5 text-xs" placeholder="e.g. Access Bank">
+                    <x-input-error for="bank_name" />
+                </div>
+
+                <div>
+                    <label for="admin_account_number" class="label text-xs">Account number</label>
+                    <input id="admin_account_number" name="account_number" type="text" inputmode="numeric"
+                           value="{{ old('account_number', $primaryAccount?->account_number) }}"
+                           required class="input tabular font-mono !py-1.5 text-xs" placeholder="0123456789">
+                    <x-input-error for="account_number" />
+                </div>
+
+                <div>
+                    <label for="admin_account_name" class="label text-xs">Account name</label>
+                    <input id="admin_account_name" name="account_name" type="text"
+                           value="{{ old('account_name', $primaryAccount?->account_name) }}"
+                           required class="input !py-1.5 text-xs" placeholder="Full Account Name">
+                    <x-input-error for="account_name" />
+                </div>
+
+                <button type="submit" class="btn-ghost !px-3 !py-1.5 text-xs w-full">
+                    Save Bank Details
+                </button>
+            </form>
         </section>
 
         {{-- ------------------------------------------------------------ --}}

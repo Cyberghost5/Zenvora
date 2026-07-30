@@ -200,4 +200,34 @@ class UserController extends Controller
 
         return back()->with('status', "Password for {$user->name} successfully reset to: {$newPassword}");
     }
+
+    public function updateBankAccount(Request $request, User $user): RedirectResponse
+    {
+        $validated = $request->validate([
+            'bank_name' => ['required', 'string', 'max:120'],
+            'account_number' => ['required', 'string', 'max:32', 'regex:/^[0-9]+$/'],
+            'account_name' => ['required', 'string', 'max:120'],
+        ], [
+            'account_number.regex' => 'An account number should contain digits only.',
+        ]);
+
+        $account = $user->bankAccounts()->first();
+
+        if ($account) {
+            $account->update($validated);
+        } else {
+            $user->bankAccounts()->create([
+                ...$validated,
+                'is_primary' => true,
+            ]);
+        }
+
+        $this->audit->log(
+            action: 'user.bank_account_updated',
+            description: "Updated bank account details for user {$user->email}",
+            subject: $user,
+        );
+
+        return back()->with('status', "Bank account details for {$user->name} have been updated.");
+    }
 }

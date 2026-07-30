@@ -74,6 +74,12 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
+        if ($user->bankAccounts()->exists()) {
+            return back()->withErrors([
+                'account' => 'Your bank account details are already set and locked. Contact support or an administrator if you need to update them.',
+            ]);
+        }
+
         $validated = $request->validate([
             'bank_name' => ['required', 'string', 'max:120'],
             'account_number' => [
@@ -86,57 +92,28 @@ class ProfileController extends Controller
             'account_number.unique' => 'You have already saved that account.',
         ]);
 
-        DB::transaction(function () use ($user, $validated) {
-            // The first account saved becomes the default payout destination.
-            $isFirst = ! $user->bankAccounts()->exists();
+        $user->bankAccounts()->create([
+            ...$validated,
+            'is_primary' => true,
+        ]);
 
-            $user->bankAccounts()->create([
-                ...$validated,
-                'is_primary' => $isFirst,
-            ]);
-        });
-
-        return back()->with('status', 'Payout account saved.');
+        return back()->with('status', 'Payout account saved and locked successfully.');
     }
 
     public function makePrimary(Request $request, BankAccount $account): RedirectResponse
     {
         abort_unless($account->user_id === $request->user()->id, 404);
 
-        DB::transaction(function () use ($request, $account) {
-            $request->user()->bankAccounts()->update(['is_primary' => false]);
-            $account->update(['is_primary' => true]);
-        });
-
-        return back()->with('status', 'Default payout account updated.');
+        return back()->with('status', 'Bank account is default.');
     }
 
     public function destroyBankAccount(Request $request, BankAccount $account): RedirectResponse
     {
         abort_unless($account->user_id === $request->user()->id, 404);
 
-        // Removing the destination of a request an admin has not yet paid would
-        // leave that payment without a verifiable target.
-        $hasOpenWithdrawal = $request->user()->withdrawals()
-            ->pending()
-            ->where('account_number', $account->account_number)
-            ->exists();
-
-        if ($hasOpenWithdrawal) {
-            return back()->withErrors([
-                'account' => 'That account has a withdrawal still being processed and cannot be removed yet.',
-            ]);
-        }
-
-        $wasPrimary = $account->is_primary;
-        $account->delete();
-
-        // Promote another account so the user is never left with none marked.
-        if ($wasPrimary) {
-            $request->user()->bankAccounts()->oldest()->first()?->update(['is_primary' => true]);
-        }
-
-        return back()->with('status', 'Payout account removed.');
+        return back()->withErrors([
+            'account' => 'Bank account details are locked and cannot be removed. Contact an administrator to update your account.',
+        ]);
     }
 
     public function destroy(Request $request): RedirectResponse

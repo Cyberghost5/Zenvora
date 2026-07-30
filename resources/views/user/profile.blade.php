@@ -97,83 +97,68 @@
                 mismatch will delay your payment.
             </p>
 
-            @if ($accounts->isEmpty())
-                <p class="mt-4 rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
-                    You have no payout account saved. Add one before requesting a withdrawal.
-                </p>
-            @else
+            @if ($accounts->isNotEmpty())
                 <ul class="mt-4 space-y-3">
                     @foreach ($accounts as $account)
-                        <li class="flex flex-wrap items-center gap-3 rounded-xl border border-white/10 bg-ink-950/50 px-4 py-3">
+                        <li class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-ink-950/50 p-4">
                             <div class="min-w-0 flex-1">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <p class="font-medium text-white">{{ $account->bank_name }}</p>
-                                    @if ($account->is_primary)
-                                        <span class="pill bg-brand-500/10 text-brand-300 ring-brand-500/20">Default</span>
-                                    @endif
+                                <div class="flex items-center gap-2">
+                                    <p class="font-semibold text-white">{{ $account->bank_name }}</p>
+                                    <span class="pill bg-amber-500/10 text-amber-300 ring-amber-500/20 text-xs">
+                                        <i class="fa-solid fa-lock text-[10px] mr-1"></i> Locked
+                                    </span>
                                 </div>
-                                <p class="tabular mt-0.5 font-mono text-sm text-slate-400">{{ $account->account_number }}</p>
-                                <p class="text-xs text-slate-500">{{ $account->account_name }}</p>
-                            </div>
-
-                            <div class="flex shrink-0 gap-2">
-                                @unless ($account->is_primary)
-                                    <form method="POST" action="{{ route('profile.bank-accounts.primary', $account) }}">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="btn-ghost !px-3 !py-1.5 text-xs">Make default</button>
-                                    </form>
-                                @endunless
-
-                                <form method="POST"
-                                      action="{{ route('profile.bank-accounts.destroy', $account) }}"
-                                      data-confirm="Remove {{ $account->bank_name }} ending {{ substr($account->account_number, -4) }}?">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn-ghost !px-3 !py-1.5 text-xs text-rose-400 hover:!border-rose-500/40">
-                                        Remove
-                                    </button>
-                                </form>
+                                <p class="tabular mt-1 font-mono text-base font-semibold text-brand-300">{{ $account->account_number }}</p>
+                                <p class="text-xs text-slate-400 mt-0.5">{{ $account->account_name }}</p>
                             </div>
                         </li>
                     @endforeach
                 </ul>
+
+                <div class="mt-4 rounded-xl border border-amber-500/25 bg-amber-500/10 p-4 text-xs leading-relaxed text-amber-200">
+                    <i class="fa-solid fa-lock mr-1.5 text-amber-300"></i>
+                    <strong>Account Locked:</strong> Your bank account details are locked and cannot be edited by yourself. Please contact support or an administrator if you need to update your payout details.
+                </div>
+            @else
+                <p class="mt-4 rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
+                    You have no payout account saved. Please enter your account details below. <strong class="underline">Important:</strong> Once saved, your account details will be locked and can only be updated by an administrator.
+                </p>
+
+                <x-input-error for="account" />
+
+                <form method="POST" action="{{ route('profile.bank-accounts.store') }}"
+                      class="mt-6 space-y-4 border-t border-white/5 pt-6">
+                    @csrf
+
+                    <h3 class="text-sm font-semibold text-white">Save your bank account</h3>
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <label for="bank_name" class="label">Bank name</label>
+                            <input id="bank_name" name="bank_name" type="text" value="{{ old('bank_name') }}"
+                                   class="input" placeholder="e.g. Access Bank" required>
+                            <x-input-error for="bank_name" />
+                        </div>
+
+                        <div>
+                            <label for="account_number" class="label">Account number</label>
+                            <input id="account_number" name="account_number" type="text" inputmode="numeric"
+                                   value="{{ old('account_number') }}" class="input tabular font-mono"
+                                   placeholder="0123456789" required>
+                            <x-input-error for="account_number" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="account_name" class="label">Account name</label>
+                        <input id="account_name" name="account_name" type="text" value="{{ old('account_name') }}"
+                               class="input" placeholder="Exactly as it appears at your bank" required>
+                        <x-input-error for="account_name" />
+                    </div>
+
+                    <button type="submit" class="btn-primary">Save and Lock Account</button>
+                </form>
             @endif
-
-            <x-input-error for="account" />
-
-            <form method="POST" action="{{ route('profile.bank-accounts.store') }}"
-                  class="mt-6 space-y-4 border-t border-white/5 pt-6">
-                @csrf
-
-                <h3 class="text-sm font-semibold text-white">Add an account</h3>
-
-                <div class="grid gap-4 sm:grid-cols-2">
-                    <div>
-                        <label for="bank_name" class="label">Bank name</label>
-                        <input id="bank_name" name="bank_name" type="text" value="{{ old('bank_name') }}"
-                               class="input" placeholder="e.g. Access Bank">
-                        <x-input-error for="bank_name" />
-                    </div>
-
-                    <div>
-                        <label for="account_number" class="label">Account number</label>
-                        <input id="account_number" name="account_number" type="text" inputmode="numeric"
-                               value="{{ old('account_number') }}" class="input tabular font-mono"
-                               placeholder="0123456789">
-                        <x-input-error for="account_number" />
-                    </div>
-                </div>
-
-                <div>
-                    <label for="account_name" class="label">Account name</label>
-                    <input id="account_name" name="account_name" type="text" value="{{ old('account_name') }}"
-                           class="input" placeholder="Exactly as it appears at your bank">
-                    <x-input-error for="account_name" />
-                </div>
-
-                <button type="submit" class="btn-primary">Save account</button>
-            </form>
         </div>
 
         {{-- ------------------------------------------------------------ --}}
