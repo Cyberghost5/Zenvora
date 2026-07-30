@@ -417,7 +417,12 @@
                 </div>
 
                 <div>
-                    <label class="label">Announcement Content (WYSIWYG Editor)</label>
+                    <div class="mb-2 flex items-center justify-between gap-2">
+                        <label class="label mb-0">Announcement Content</label>
+                        <button type="button" id="btn-toggle-html-source" class="btn-ghost !px-3 !py-1 text-xs font-mono">
+                            <i class="fa-solid fa-code mr-1.5 text-brand-400"></i> Edit HTML Source
+                        </button>
+                    </div>
                     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
                     <style>
                         .ql-toolbar.ql-snow {
@@ -461,8 +466,12 @@
                         {!! old('announcement_body', $settings->string('announcement_body')) !!}
                     </div>
 
+                    <textarea id="raw-html-editor"
+                              class="input hidden font-mono text-xs text-emerald-300 min-h-[220px] bg-ink-950 p-4 leading-relaxed"
+                              placeholder="Type or paste custom HTML code here... (e.g. <a href='...' class='btn-primary'>Link</a>)">{{ old('announcement_body', $settings->string('announcement_body')) }}</textarea>
+
                     <input type="hidden" name="announcement_body" id="announcement_body" value="{{ old('announcement_body', $settings->string('announcement_body')) }}">
-                    <p class="mt-1.5 text-xs text-slate-500">Rich formatted message displayed to signed-in users on login.</p>
+                    <p class="mt-1.5 text-xs text-slate-500">Rich formatted message displayed to signed-in users on login. Click 'Edit HTML Source' to add custom classes or inline styles.</p>
                     <x-input-error for="announcement_body" />
 
                     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
@@ -486,10 +495,40 @@
                             });
 
                             const hiddenInput = document.getElementById('announcement_body');
+                            const rawHtmlEditor = document.getElementById('raw-html-editor');
+                            const btnToggleCode = document.getElementById('btn-toggle-html-source');
                             const form = hiddenInput.closest('form');
+                            let isCodeMode = false;
+
+                            if (btnToggleCode && rawHtmlEditor) {
+                                btnToggleCode.addEventListener('click', function() {
+                                    const qlToolbar = container.parentElement.querySelector('.ql-toolbar');
+                                    if (!isCodeMode) {
+                                        // Switch to Raw HTML Code view
+                                        rawHtmlEditor.value = quill.root.innerHTML;
+                                        container.classList.add('hidden');
+                                        if (qlToolbar) qlToolbar.classList.add('hidden');
+                                        rawHtmlEditor.classList.remove('hidden');
+                                        btnToggleCode.innerHTML = '<i class="fa-solid fa-eye mr-1.5 text-brand-400"></i> Visual Editor Mode';
+                                        isCodeMode = true;
+                                    } else {
+                                        // Switch back to Visual WYSIWYG view
+                                        quill.root.innerHTML = rawHtmlEditor.value;
+                                        rawHtmlEditor.classList.add('hidden');
+                                        container.classList.remove('hidden');
+                                        if (qlToolbar) qlToolbar.classList.remove('hidden');
+                                        btnToggleCode.innerHTML = '<i class="fa-solid fa-code mr-1.5 text-brand-400"></i> Edit HTML Source';
+                                        isCodeMode = false;
+                                    }
+                                });
+                            }
 
                             form.addEventListener('submit', function() {
-                                hiddenInput.value = quill.root.innerHTML;
+                                if (isCodeMode && rawHtmlEditor) {
+                                    hiddenInput.value = rawHtmlEditor.value;
+                                } else {
+                                    hiddenInput.value = quill.root.innerHTML;
+                                }
                             });
                         });
                     </script>
