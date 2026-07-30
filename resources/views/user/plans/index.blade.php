@@ -89,7 +89,7 @@
                                 </button>
                             @else
                                 <p class="mt-2 rounded-xl border border-white/10 px-3 py-2.5 text-center text-xs text-slate-500">
-                                    Needs {{ $plan->min_amount->formatWithSymbol() }} in deposit balance <a href="{{ route('deposits.create') }}" class="text-brand-400 hover:text-brand-300">Fund your wallet</a>
+                                    Needs {{ $plan->min_amount->formatWithSymbol() }} in deposit balance. <a href="{{ route('deposits.create') }}" class="text-brand-400 hover:text-brand-300">Fund your wallet</a>
                                 </p>
                             @endif
                         </form>
