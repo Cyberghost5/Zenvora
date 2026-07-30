@@ -1,13 +1,14 @@
 @inject('settingsService', 'App\Services\SettingsService')
 
 @php
+    $isDashboard = request()->routeIs('dashboard');
     $enabled = $settingsService->boolean('announcement_enabled');
     $title = $settingsService->string('announcement_title', 'Important Notice');
     $body = $settingsService->string('announcement_body', '');
     $noticeHash = md5($title . '|' . $body);
 @endphp
 
-@if ($enabled && filled($body))
+@if ($isDashboard && $enabled && filled($body))
     <div id="announcement-modal"
          class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm transition-opacity"
          aria-modal="true" role="dialog">
