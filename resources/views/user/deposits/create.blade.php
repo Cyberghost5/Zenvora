@@ -95,29 +95,53 @@
                         <div class="card">
                             {{-- Show the destination account before asking for proof,
                                  so the user pays the right place first. --}}
-                            <h3 class="font-semibold text-white">1. Transfer to this account</h3>
+                            <h3 class="font-semibold text-white">1. Transfer to any of these accounts</h3>
 
-                            <dl class="mt-3 space-y-2.5 rounded-xl border border-brand-500/25 bg-brand-500/5 p-4 text-sm">
-                                <div class="flex items-center justify-between gap-3">
-                                    <dt class="text-slate-400">Bank</dt>
-                                    <dd class="font-semibold text-white">{{ $bank['name'] ?: '-' }}</dd>
-                                </div>
-                                <div class="flex items-center justify-between gap-3 border-t border-white/5 pt-2.5">
-                                    <dt class="text-slate-400">Account number</dt>
-                                    <dd class="flex items-center gap-2">
-                                        <span class="tabular font-mono font-semibold text-white">{{ $bank['number'] ?: '-' }}</span>
-                                        @if ($bank['number'])
-                                            <button type="button"
-                                                    class="btn-ghost !px-2 !py-1 text-xs"
-                                                    data-copy="{{ $bank['number'] }}">Copy</button>
-                                        @endif
-                                    </dd>
-                                </div>
-                                <div class="flex items-center justify-between gap-3 border-t border-white/5 pt-2.5">
-                                    <dt class="text-slate-400">Account name</dt>
-                                    <dd class="font-semibold text-white">{{ $bank['account'] ?: '-' }}</dd>
-                                </div>
-                            </dl>
+                            <div class="mt-3 grid gap-3 {{ !empty($bank['number_2']) ? 'sm:grid-cols-2' : '' }}">
+                                <dl class="space-y-2.5 rounded-xl border border-brand-500/25 bg-brand-500/5 p-4 text-sm">
+                                    <div class="flex items-center justify-between gap-3">
+                                        <dt class="text-slate-400">Bank</dt>
+                                        <dd class="font-semibold text-white">{{ $bank['name'] ?: '-' }}</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-3 border-t border-white/5 pt-2.5">
+                                        <dt class="text-slate-400">Account number</dt>
+                                        <dd class="flex items-center gap-2">
+                                            <span class="tabular font-mono font-semibold text-white">{{ $bank['number'] ?: '-' }}</span>
+                                            @if ($bank['number'])
+                                                <button type="button"
+                                                        class="btn-ghost !px-2 !py-1 text-xs"
+                                                        data-copy="{{ $bank['number'] }}">Copy</button>
+                                            @endif
+                                        </dd>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-3 border-t border-white/5 pt-2.5">
+                                        <dt class="text-slate-400">Account name</dt>
+                                        <dd class="font-semibold text-white">{{ $bank['account'] ?: '-' }}</dd>
+                                    </div>
+                                </dl>
+
+                                @if (!empty($bank['number_2']))
+                                    <dl class="space-y-2.5 rounded-xl border border-brand-500/25 bg-brand-500/5 p-4 text-sm">
+                                        <div class="flex items-center justify-between gap-3">
+                                            <dt class="text-slate-400">Bank (Option 2)</dt>
+                                            <dd class="font-semibold text-white">{{ $bank['name_2'] ?: '-' }}</dd>
+                                        </div>
+                                        <div class="flex items-center justify-between gap-3 border-t border-white/5 pt-2.5">
+                                            <dt class="text-slate-400">Account number</dt>
+                                            <dd class="flex items-center gap-2">
+                                                <span class="tabular font-mono font-semibold text-white">{{ $bank['number_2'] }}</span>
+                                                <button type="button"
+                                                        class="btn-ghost !px-2 !py-1 text-xs"
+                                                        data-copy="{{ $bank['number_2'] }}">Copy</button>
+                                            </dd>
+                                        </div>
+                                        <div class="flex items-center justify-between gap-3 border-t border-white/5 pt-2.5">
+                                            <dt class="text-slate-400">Account name</dt>
+                                            <dd class="font-semibold text-white">{{ $bank['account_2'] ?: '-' }}</dd>
+                                        </div>
+                                    </dl>
+                                @endif
+                            </div>
 
                             @if ($bank['instructions'])
                                 <p class="mt-3 text-xs leading-relaxed text-slate-500">{{ $bank['instructions'] }}</p>

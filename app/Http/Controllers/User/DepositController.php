@@ -42,6 +42,9 @@ class DepositController extends Controller
                 'name' => $this->settings->string('manual_bank_name'),
                 'number' => $this->settings->string('manual_account_number'),
                 'account' => $this->settings->string('manual_account_name'),
+                'name_2' => $this->settings->string('manual_bank_name_2'),
+                'number_2' => $this->settings->string('manual_account_number_2'),
+                'account_2' => $this->settings->string('manual_account_name_2'),
                 'instructions' => $this->settings->string('manual_instructions'),
             ],
         ]);

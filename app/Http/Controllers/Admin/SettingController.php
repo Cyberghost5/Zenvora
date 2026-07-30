@@ -67,6 +67,9 @@ class SettingController extends Controller
             'manual_bank_name' => ['nullable', 'string', 'max:120'],
             'manual_account_number' => ['nullable', 'string', 'max:32'],
             'manual_account_name' => ['nullable', 'string', 'max:120'],
+            'manual_bank_name_2' => ['nullable', 'string', 'max:120'],
+            'manual_account_number_2' => ['nullable', 'string', 'max:32'],
+            'manual_account_name_2' => ['nullable', 'string', 'max:120'],
             'manual_instructions' => ['nullable', 'string', 'max:1000'],
 
             // Announcement Notice Popup
@@ -127,6 +130,9 @@ class SettingController extends Controller
             'manual_bank_name' => $validated['manual_bank_name'] ?? '',
             'manual_account_number' => $validated['manual_account_number'] ?? '',
             'manual_account_name' => $validated['manual_account_name'] ?? '',
+            'manual_bank_name_2' => $validated['manual_bank_name_2'] ?? '',
+            'manual_account_number_2' => $validated['manual_account_number_2'] ?? '',
+            'manual_account_name_2' => $validated['manual_account_name_2'] ?? '',
             'manual_instructions' => $validated['manual_instructions'] ?? '',
 
             'announcement_enabled' => $request->boolean('announcement_enabled'),
@@ -162,6 +168,7 @@ class SettingController extends Controller
             'withdrawal_days', 'withdrawal_opens_at', 'withdrawal_closes_at', 'withdrawal_timezone',
             'referral_enabled', 'referral_tier_1_bp', 'referral_tier_2_bp', 'referral_tier_3_bp',
             'manual_bank_name', 'manual_account_number', 'manual_account_name',
+            'manual_bank_name_2', 'manual_account_number_2', 'manual_account_name_2',
             'announcement_enabled', 'announcement_title', 'announcement_body',
             'site_name', 'support_email', 'support_phone',
         ];

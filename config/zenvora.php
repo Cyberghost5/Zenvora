@@ -44,6 +44,9 @@ return [
         'manual_bank_name' => '',
         'manual_account_number' => '',
         'manual_account_name' => '',
+        'manual_bank_name_2' => '',
+        'manual_account_number_2' => '',
+        'manual_account_name_2' => '',
         'manual_instructions' => 'Transfer the exact amount to the account above, then upload your payment receipt. Your wallet is credited once an administrator confirms the transfer.',
 
         // Announcement Notice Popup

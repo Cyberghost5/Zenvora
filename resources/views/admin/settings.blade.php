@@ -318,29 +318,61 @@
                 number is filled in.
             </p>
 
-            <div class="mt-5 grid gap-5 sm:grid-cols-3">
-                <div>
-                    <label for="manual_bank_name" class="label">Bank name</label>
-                    <input id="manual_bank_name" name="manual_bank_name" type="text"
-                           value="{{ old('manual_bank_name', $settings->string('manual_bank_name')) }}"
-                           class="input" placeholder="e.g. Access Bank">
-                    <x-input-error for="manual_bank_name" />
-                </div>
+            <div class="mt-5 border-t border-white/5 pt-4">
+                <h3 class="text-sm font-semibold text-white">Bank Account 1</h3>
+                <div class="mt-3 grid gap-5 sm:grid-cols-3">
+                    <div>
+                        <label for="manual_bank_name" class="label">Bank name</label>
+                        <input id="manual_bank_name" name="manual_bank_name" type="text"
+                               value="{{ old('manual_bank_name', $settings->string('manual_bank_name')) }}"
+                               class="input" placeholder="e.g. Access Bank">
+                        <x-input-error for="manual_bank_name" />
+                    </div>
 
-                <div>
-                    <label for="manual_account_number" class="label">Account number</label>
-                    <input id="manual_account_number" name="manual_account_number" type="text"
-                           value="{{ old('manual_account_number', $settings->string('manual_account_number')) }}"
-                           class="input tabular font-mono" placeholder="0123456789">
-                    <x-input-error for="manual_account_number" />
-                </div>
+                    <div>
+                        <label for="manual_account_number" class="label">Account number</label>
+                        <input id="manual_account_number" name="manual_account_number" type="text"
+                               value="{{ old('manual_account_number', $settings->string('manual_account_number')) }}"
+                               class="input tabular font-mono" placeholder="0123456789">
+                        <x-input-error for="manual_account_number" />
+                    </div>
 
-                <div>
-                    <label for="manual_account_name" class="label">Account name</label>
-                    <input id="manual_account_name" name="manual_account_name" type="text"
-                           value="{{ old('manual_account_name', $settings->string('manual_account_name')) }}"
-                           class="input" placeholder="Your company name">
-                    <x-input-error for="manual_account_name" />
+                    <div>
+                        <label for="manual_account_name" class="label">Account name</label>
+                        <input id="manual_account_name" name="manual_account_name" type="text"
+                               value="{{ old('manual_account_name', $settings->string('manual_account_name')) }}"
+                               class="input" placeholder="Your company name">
+                        <x-input-error for="manual_account_name" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 border-t border-white/5 pt-4">
+                <h3 class="text-sm font-semibold text-white">Bank Account 2 <span class="font-normal text-slate-500">(Optional)</span></h3>
+                <div class="mt-3 grid gap-5 sm:grid-cols-3">
+                    <div>
+                        <label for="manual_bank_name_2" class="label">Bank name 2</label>
+                        <input id="manual_bank_name_2" name="manual_bank_name_2" type="text"
+                               value="{{ old('manual_bank_name_2', $settings->string('manual_bank_name_2')) }}"
+                               class="input" placeholder="e.g. GTBank">
+                        <x-input-error for="manual_bank_name_2" />
+                    </div>
+
+                    <div>
+                        <label for="manual_account_number_2" class="label">Account number 2</label>
+                        <input id="manual_account_number_2" name="manual_account_number_2" type="text"
+                               value="{{ old('manual_account_number_2', $settings->string('manual_account_number_2')) }}"
+                               class="input tabular font-mono" placeholder="0123456789">
+                        <x-input-error for="manual_account_number_2" />
+                    </div>
+
+                    <div>
+                        <label for="manual_account_name_2" class="label">Account name 2</label>
+                        <input id="manual_account_name_2" name="manual_account_name_2" type="text"
+                               value="{{ old('manual_account_name_2', $settings->string('manual_account_name_2')) }}"
+                               class="input" placeholder="Your company name">
+                        <x-input-error for="manual_account_name_2" />
+                    </div>
                 </div>
             </div>
 
