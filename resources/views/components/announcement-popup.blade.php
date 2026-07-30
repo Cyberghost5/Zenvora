@@ -57,8 +57,8 @@
 
             window.dismissAnnouncementModal = function() {
                 if (modal) {
-                    modal.classList.add('hidden');
-                    sessionStorage.setItem(storageKey, 'true');
+                    // modal.classList.add('hidden');
+                    // sessionStorage.setItem(storageKey, 'true');
                 }
             };
         })();
