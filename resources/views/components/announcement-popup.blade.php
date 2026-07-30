@@ -45,22 +45,22 @@
     </div>
 
     <script>
-        (function() {
-            const modal = document.getElementById('announcement-modal');
-            if (!modal) return;
-            const hash = modal.getAttribute('data-notice-hash');
-            const storageKey = 'zenvora_notice_dismissed_' + hash;
+        // (function() {
+        //     const modal = document.getElementById('announcement-modal');
+        //     if (!modal) return;
+        //     const hash = modal.getAttribute('data-notice-hash');
+        //     const storageKey = 'zenvora_notice_dismissed_' + hash;
 
-            if (!sessionStorage.getItem(storageKey)) {
-                modal.classList.remove('hidden');
-            }
+        //     if (!sessionStorage.getItem(storageKey)) {
+        //         modal.classList.remove('hidden');
+        //     }
 
-            window.dismissAnnouncementModal = function() {
-                if (modal) {
-                    modal.classList.add('hidden');
-                    sessionStorage.setItem(storageKey, 'true');
-                }
-            };
-        })();
+        //     window.dismissAnnouncementModal = function() {
+        //         if (modal) {
+        //             modal.classList.add('hidden');
+        //             sessionStorage.setItem(storageKey, 'true');
+        //         }
+        //     };
+        // })();
     </script>
 @endif
