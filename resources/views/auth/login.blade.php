@@ -27,6 +27,7 @@
                     Forgot password?
                 </a>
             </div> -->
+            <label for="password" class="label">Password</label>
             <input id="password"
                    name="password"
                    type="password"
