@@ -164,7 +164,7 @@
         {{-- ------------------------------------------------------------ --}}
         {{-- Password                                                     --}}
         {{-- ------------------------------------------------------------ --}}
-        <div class="card">
+        <!-- <div class="card">
             <h2 class="font-semibold text-white">Change password</h2>
 
             <form method="POST" action="{{ route('profile.password') }}" class="mt-4 space-y-4">
@@ -193,7 +193,7 @@
 
                 <button type="submit" class="btn-primary w-full">Update password</button>
             </form>
-        </div>
+        </div> -->
     </section>
 
     {{-- ---------------------------------------------------------------- --}}
