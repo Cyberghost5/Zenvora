@@ -31,6 +31,7 @@ class WithdrawalController extends Controller
             'min' => $this->withdrawals->minimum(),
             'max' => $this->withdrawals->maximum(),
             'feeBp' => config('zenvora.defaults.withdrawal_fee_bp'),
+            'hasWithdrawnToday' => $user->withdrawals()->whereDate('created_at', now()->toDateString())->exists(),
         ]);
     }
 

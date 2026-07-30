@@ -61,6 +61,15 @@
                         Add bank account
                     </a>
                 </div>
+            @elseif ($hasWithdrawnToday)
+                <div class="mt-4 rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3.5 text-sm text-amber-200">
+                    <p class="font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Daily Limit Reached
+                    </p>
+                    <p class="mt-1 text-xs leading-relaxed opacity-90">
+                        You have already submitted a withdrawal request today. Withdrawals are limited to 1 request per day. Please try again tomorrow.
+                    </p>
+                </div>
             @elseif ($wallet->withdrawable_balance->isZero())
                 <div class="mt-4 rounded-xl border border-white/10 bg-ink-950/50 px-4 py-3.5 text-sm text-slate-400">
                     <p class="font-medium text-slate-300">Nothing to withdraw yet</p>
@@ -139,6 +148,10 @@
                 <h2 class="font-semibold text-white">Withdrawal rules</h2>
                 <dl class="mt-3 space-y-2.5 text-sm">
                     <div class="flex items-center justify-between gap-3">
+                        <dt class="text-slate-400">Daily limit</dt>
+                        <dd class="font-medium text-amber-300">1 request / day</dd>
+                    </div>
+                    <div class="flex items-center justify-between gap-3 border-t border-white/5 pt-2.5">
                         <dt class="text-slate-400">Minimum</dt>
                         <dd class="tabular font-semibold text-white">{{ $min->formatWithSymbol() }}</dd>
                     </div>

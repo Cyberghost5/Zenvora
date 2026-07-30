@@ -62,6 +62,14 @@ class WithdrawalService
             throw new RuntimeException($reason);
         }
 
+        $hasWithdrawnToday = $user->withdrawals()
+            ->whereDate('created_at', now()->toDateString())
+            ->exists();
+
+        if ($hasWithdrawnToday) {
+            throw new RuntimeException('You can only make one withdrawal request per day. Please try again tomorrow.');
+        }
+
         if ($amount->lessThan($this->minimum())) {
             throw new RuntimeException(sprintf(
                 'The minimum withdrawal is %s.',
