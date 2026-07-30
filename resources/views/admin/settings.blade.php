@@ -480,7 +480,7 @@
                                         ['bold', 'italic', 'underline', 'strike'],
                                         [{ 'color': [] }, { 'background': [] }],
                                         [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                        ['link', 'clean']
+                                        ['link', 'clean', 'image', 'code-block']
                                     ]
                                 }
                             });
