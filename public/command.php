@@ -66,7 +66,6 @@ if ($isAjax && isset($_GET['run'])) {
     $output     = trim($kernel->output());
     $elapsed    = round(microtime(true) - LARAVEL_START, 3);
 
-    var_dump($status, $output, $elapsed);
     echo json_encode([
         'success'   => $status === 0,
         'exit_code' => $status,

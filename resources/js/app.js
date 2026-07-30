@@ -181,6 +181,46 @@ function initInvestmentProjection() {
     });
 }
 
+/*
+ * Live Countdown Timer for Next Payout on User Active Investment Details Page.
+ */
+function initCountdownTimers() {
+    document.querySelectorAll('[data-countdown]').forEach((container) => {
+        const targetTime = Number(container.dataset.countdown);
+        const hoursEl = container.querySelector('[data-hours]');
+        const minutesEl = container.querySelector('[data-minutes]');
+        const secondsEl = container.querySelector('[data-seconds]');
+        const dueMsg = container.querySelector('[data-payout-due-msg]');
+
+        if (!targetTime || !hoursEl || !minutesEl || !secondsEl) return;
+
+        const updateTimer = () => {
+            const now = Date.now();
+            const diff = targetTime - now;
+
+            if (diff <= 0) {
+                hoursEl.textContent = '00';
+                minutesEl.textContent = '00';
+                secondsEl.textContent = '00';
+                if (dueMsg) dueMsg.classList.remove('hidden');
+                return;
+            }
+
+            const totalSeconds = Math.floor(diff / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minutesEl.textContent = String(minutes).padStart(2, '0');
+            secondsEl.textContent = String(seconds).padStart(2, '0');
+        };
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initNavToggle();
     initCopyButtons();
@@ -188,4 +228,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initTogglePanels();
     initChannelPicker();
     initInvestmentProjection();
+    initCountdownTimers();
 });

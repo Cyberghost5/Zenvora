@@ -108,4 +108,18 @@ class Investment extends Model
     {
         return $this->days_paid >= $this->duration_days;
     }
+
+    /**
+     * Calculates the timestamp for when the next daily return is due.
+     */
+    public function nextPayoutAt(): ?\Illuminate\Support\Carbon
+    {
+        if ($this->status !== 'active' || $this->hasRunFullTerm()) {
+            return null;
+        }
+
+        $start = $this->created_at ?? \Illuminate\Support\Carbon::parse($this->started_on);
+
+        return $start->copy()->addDays($this->days_paid + 1);
+    }
 }
