@@ -25,7 +25,7 @@
     </div>
 
     @if ($investment->status === 'active' && ! $investment->hasRunFullTerm() && $investment->nextPayoutAt())
-        <div class="mt-6 rounded-2xl border border-brand-500/30 bg-gradient-to-r from-brand-500/10 via-ink-900 to-ink-950 p-6 shadow-xl"
+        <div class="mt-6 rounded-2xl border border-brand-500/30 bg-gradient-to-b from-brand-500/10 via-ink-900 to-ink-950 p-6 shadow-xl"
              data-countdown="{{ $investment->nextPayoutAt()->getTimestamp() * 1000 }}">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div>
