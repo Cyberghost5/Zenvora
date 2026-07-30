@@ -9,8 +9,7 @@
 
 @if ($enabled && filled($body))
     <div id="announcement-modal"
-         data-notice-hash="{{ $noticeHash }}"
-         class="fixed inset-0 z-50 hidden flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm transition-opacity"
+         class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm transition-opacity"
          aria-modal="true" role="dialog">
         <div class="relative w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-ink-900 shadow-2xl p-6 transition-all sm:p-8">
             <button type="button"
@@ -45,22 +44,11 @@
     </div>
 
     <script>
-        // (function() {
-        //     const modal = document.getElementById('announcement-modal');
-        //     if (!modal) return;
-        //     const hash = modal.getAttribute('data-notice-hash');
-        //     const storageKey = 'zenvora_notice_dismissed_' + hash;
-
-        //     if (!sessionStorage.getItem(storageKey)) {
-        //         modal.classList.remove('hidden');
-        //     }
-
-        //     window.dismissAnnouncementModal = function() {
-        //         if (modal) {
-        //             modal.classList.add('hidden');
-        //             sessionStorage.setItem(storageKey, 'true');
-        //         }
-        //     };
-        // })();
+        function dismissAnnouncementModal() {
+            const modal = document.getElementById('announcement-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
     </script>
 @endif
