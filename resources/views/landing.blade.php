@@ -175,7 +175,7 @@
         {{-- ------------------------------------------------------------ --}}
         {{-- Plans                                                        --}}
         {{-- ------------------------------------------------------------ --}}
-        <section id="plans" class="py-16 sm:py-20">
+        <!-- <section id="plans" class="py-16 sm:py-20">
             <div class="mx-auto max-w-6xl px-4 sm:px-6">
                 <div class="max-w-2xl">
                     <h2 class="text-3xl font-semibold tracking-tight text-white sm:text-4xl">Investment plans</h2>
@@ -208,7 +208,7 @@
                     Returns are targets, not guarantees. Never invest money you cannot afford to lose.
                 </p>
             </div>
-        </section>
+        </section> -->
 
         {{-- ------------------------------------------------------------ --}}
         {{-- Referrals                                                    --}}

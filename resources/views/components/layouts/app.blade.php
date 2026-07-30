@@ -107,8 +107,8 @@
         </aside>
 
         <div class="flex min-w-0 flex-1 flex-col lg:pl-64">
-            <main id="main" class="flex-1 px-4 py-6 pb-24 sm:px-6 sm:py-8 lg:px-8 lg:pb-8">
-                <div class="mx-auto max-w-6xl">
+            <main id="main" class="flex-1 min-w-0 px-4 py-6 pb-24 sm:px-6 sm:py-8 lg:px-8 lg:pb-8">
+                <div class="mx-auto max-w-6xl min-w-0">
                     @if ($heading)
                         <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
                             <div>

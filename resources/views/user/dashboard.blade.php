@@ -123,22 +123,67 @@
         @endif
     </section>
 
-    <div class="mt-8 grid gap-6 lg:grid-cols-3">
+    <div class="mt-8 grid gap-6 lg:grid-cols-3 min-w-0">
         {{-- ------------------------------------------------------------ --}}
         {{-- Available plans                                              --}}
         {{-- ------------------------------------------------------------ --}}
-        <section class="lg:col-span-2">
+        <section class="min-w-0 lg:col-span-2">
             <div class="mb-4 flex items-end justify-between gap-4">
                 <h2 class="text-lg font-semibold text-white">Available plans</h2>
-                <a href="{{ route('investments.index') }}" class="text-sm text-brand-400 hover:text-brand-300">Invest</a>
+                <a href="{{ route('plans.index') }}" class="text-sm text-brand-400 hover:text-brand-300">Browse all</a>
             </div>
 
             @if ($plans->isEmpty())
                 <x-empty-state title="No plans published"
                                message="Plans will appear here once an administrator publishes them." />
             @else
-                <div class="overflow-hidden rounded-2xl border border-white/10">
-                    <div class="overflow-x-auto">
+                {{-- Mobile view: Stacked plan cards to prevent horizontal page overflow --}}
+                <div class="space-y-3 sm:hidden">
+                    @foreach ($plans as $plan)
+                        <div class="rounded-xl border border-white/10 bg-ink-900/60 p-4 transition hover:border-brand-500/30">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    @if ($plan->imageUrl())
+                                        <img src="{{ $plan->imageUrl() }}" alt="{{ $plan->name }}" class="h-10 w-10 shrink-0 rounded-lg object-cover border border-white/10">
+                                    @endif
+                                    <div>
+                                        <h3 class="font-semibold text-white">{{ $plan->name }}</h3>
+                                        @if ($plan->return_capital)
+                                            <p class="text-[11px] text-emerald-400">Capital returned</p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <span class="pill bg-brand-500/10 text-brand-300 ring-brand-500/20 text-xs">
+                                    {{ $plan->dailyPayoutFor($plan->min_amount)->formatWithSymbol() }}/day
+                                </span>
+                            </div>
+
+                            <div class="mt-3 grid grid-cols-3 gap-2 border-t border-white/5 pt-3 text-xs">
+                                <div>
+                                    <span class="block text-slate-500">Price</span>
+                                    <span class="tabular font-semibold text-white">{{ $plan->min_amount->formatWithSymbol() }}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-slate-500">Term</span>
+                                    <span class="tabular font-medium text-slate-300">{{ $plan->durationLabel() }}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-slate-500">Total</span>
+                                    <span class="tabular font-semibold text-brand-300">{{ $plan->totalReturnFor($plan->min_amount)->formatWithSymbol() }}</span>
+                                </div>
+                            </div>
+
+                            <a href="{{ route('plans.index') }}#plan-{{ $plan->id }}"
+                               class="btn-primary mt-3 w-full text-center text-xs py-2 block">
+                                Invest Now
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+
+                {{-- Desktop view: Clean responsive table --}}
+                <div class="hidden sm:block overflow-hidden rounded-2xl border border-white/10">
+                    <div class="overflow-x-auto min-w-0">
                         <table class="w-full text-left text-sm">
                             <thead class="bg-ink-900/80 text-xs uppercase tracking-wide text-slate-500">
                                 <tr>
@@ -154,10 +199,17 @@
                                 @foreach ($plans as $plan)
                                     <tr class="bg-ink-900/40">
                                         <td class="px-4 py-3">
-                                            <p class="font-medium text-white">{{ $plan->name }}</p>
-                                            @if ($plan->return_capital)
-                                                <p class="text-xs text-emerald-400">Capital returned</p>
-                                            @endif
+                                            <div class="flex items-center gap-2.5">
+                                                @if ($plan->imageUrl())
+                                                    <img src="{{ $plan->imageUrl() }}" alt="{{ $plan->name }}" class="h-8 w-8 shrink-0 rounded-lg object-cover border border-white/10">
+                                                @endif
+                                                <div>
+                                                    <p class="font-medium text-white">{{ $plan->name }}</p>
+                                                    @if ($plan->return_capital)
+                                                        <p class="text-xs text-emerald-400">Capital returned</p>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class="tabular px-4 py-3 whitespace-nowrap text-slate-400">
                                             {{ $plan->min_amount->formatWithSymbol() }}
@@ -166,7 +218,7 @@
                                         <td class="px-4 py-3 whitespace-nowrap text-slate-300">{{ $plan->durationLabel() }}</td>
                                         <td class="tabular px-4 py-3 font-semibold text-brand-300">{{ $plan->totalReturnFor($plan->min_amount)->formatWithSymbol() }}</td>
                                         <td class="px-4 py-3 text-right">
-                                            <a href="{{ route('investments.index') }}#plan-{{ $plan->id }}"
+                                            <a href="{{ route('plans.index') }}#plan-{{ $plan->id }}"
                                                class="text-brand-400 hover:text-brand-300">Invest</a>
                                         </td>
                                     </tr>
