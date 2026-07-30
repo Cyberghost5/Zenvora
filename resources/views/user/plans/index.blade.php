@@ -45,7 +45,7 @@
                             </span>
                         </div>
 
-                        <dl class="mt-4 grid grid-cols-2 gap-3 border-y border-white/5 py-4 text-sm">
+                        <dl class="mt-4 grid grid-cols-2 gap-3 border-y border-white/5 py-4 text-sm justify-items-center">
                             <div>
                                 <dt class="text-xs text-slate-500">Plan Price</dt>
                                 <dd class="tabular mt-0.5 font-bold text-white text-base">{{ $plan->min_amount->formatWithSymbol() }}</dd>
@@ -68,11 +68,11 @@
                             </div>
                         </dl>
 
-                        <p class="mt-3 text-xs {{ $plan->return_capital ? 'text-emerald-400' : 'text-slate-400' }}">
+                        <!-- <p class="mt-3 text-xs {{ $plan->return_capital ? 'text-emerald-400' : 'text-slate-400' }}">
                             {{ $plan->return_capital
                                 ? 'Capital is returned at the end of the 7-day cycle.'
                                 : 'Capital is included in the total payout.' }}
-                        </p>
+                        </p> -->
 
                         <form method="POST" action="{{ route('investments.store') }}" class="mt-auto pt-4">
                             @csrf

@@ -85,7 +85,7 @@
                             </span>
                         </div>
 
-                        <dl class="mt-4 grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
+                        <dl class="mt-4 grid grid-cols-2 gap-3 text-sm sm:grid-cols-3 justify-items-center">
                             <div>
                                 <dt class="text-xs text-slate-500">Principal</dt>
                                 <dd class="tabular mt-0.5 font-semibold text-white">{{ $investment->principal->formatWithSymbol() }}</dd>
