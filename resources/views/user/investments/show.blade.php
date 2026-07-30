@@ -25,7 +25,7 @@
     </div>
 
     @if ($investment->status === 'active' && ! $investment->hasRunFullTerm() && $investment->nextPayoutAt())
-        <div class="mt-6 rounded-2xl border border-brand-500/30 bg-gradient-to-b from-brand-500/10 via-ink-900 to-ink-950 p-6 shadow-xl"
+        <div class="mt-6 rounded-2xl border border-brand-500/30 bg-gradient-to-b from-brand-500/10 via-ink-900 to-ink-950 p-6"
              data-countdown="{{ $investment->nextPayoutAt()->getTimestamp() * 1000 }}">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div>
@@ -42,17 +42,17 @@
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <div class="flex flex-col items-center justify-center rounded-xl border border-white/10 bg-ink-950/80 px-4 py-2.5 min-w-[70px]">
+                    <div class="flex flex-col items-center justify-center rounded-xl border border-white/10 px-4 py-2.5 min-w-[70px]">
                         <span class="tabular text-2xl font-bold text-brand-300" data-hours>00</span>
                         <span class="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Hours</span>
                     </div>
                     <span class="text-xl font-bold text-slate-600">:</span>
-                    <div class="flex flex-col items-center justify-center rounded-xl border border-white/10 bg-ink-950/80 px-4 py-2.5 min-w-[70px]">
+                    <div class="flex flex-col items-center justify-center rounded-xl border border-white/10 px-4 py-2.5 min-w-[70px]">
                         <span class="tabular text-2xl font-bold text-brand-300" data-minutes>00</span>
                         <span class="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Mins</span>
                     </div>
                     <span class="text-xl font-bold text-slate-600">:</span>
-                    <div class="flex flex-col items-center justify-center rounded-xl border border-white/10 bg-ink-950/80 px-4 py-2.5 min-w-[70px]">
+                    <div class="flex flex-col items-center justify-center rounded-xl border border-white/10 px-4 py-2.5 min-w-[70px]">
                         <span class="tabular text-2xl font-bold text-brand-300" data-seconds>00</span>
                         <span class="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Secs</span>
                     </div>
