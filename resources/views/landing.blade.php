@@ -120,7 +120,7 @@
                             ],
                             [
                                 'title' => 'Fund your wallet',
-                                'body' => 'Pay by card or transfer through Paystack or Flutterwave, redeem a coupon, or send a manual bank transfer.',
+                                'body' => 'Pay by a manual bank transfer.',
                             ],
                             [
                                 'title' => 'Choose a plan',
@@ -254,7 +254,7 @@
                         </div>
                         <div class="flex items-start justify-between gap-4 border-t border-white/5 pt-3.5">
                             <dt class="text-slate-400">Funding methods</dt>
-                            <dd class="text-right font-medium text-white">Paystack, Flutterwave, coupon, bank transfer</dd>
+                            <dd class="text-right font-medium text-white">Bank transfer</dd>
                         </div>
                         <div class="flex items-start justify-between gap-4 border-t border-white/5 pt-3.5">
                             <dt class="text-slate-400">Minimum withdrawal</dt>
