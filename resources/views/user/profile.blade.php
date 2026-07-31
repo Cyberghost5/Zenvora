@@ -24,7 +24,6 @@
                     <label for="email" class="label">Email address</label>
                     <input id="email" name="email" type="email" value="{{ old('email', $user->email) }}"
                            required autocomplete="email" class="input">
-                    <p class="mt-1.5 text-xs text-slate-500">Changing this will require you to verify the new address.</p>
                     <x-input-error for="email" />
                 </div>
 

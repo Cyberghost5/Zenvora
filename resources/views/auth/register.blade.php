@@ -29,15 +29,12 @@
             <x-input-error for="name" />
         </div>
 
-        <!-- <div>
-            <label for="email" class="label">
-                Email address <span class="font-normal text-slate-500">(optional)</span>
-            </label>
+        <div>
+            <label for="email" class="label">Email address</label>
             <input id="email" name="email" type="email" value="{{ old('email') }}"
-                   autocomplete="username" inputmode="email" class="input" placeholder="you@example.com">
-            <p class="mt-1.5 text-xs text-slate-500">Optional for notifications and account recovery.</p>
+                   required autocomplete="username" inputmode="email" class="input" placeholder="you@example.com">
             <x-input-error for="email" />
-        </div> -->
+        </div>
 
         <div>
             <label for="phone" class="label">Phone number</label>

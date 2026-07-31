@@ -39,10 +39,6 @@ class ProfileController extends Controller
 
         $user->update($validated);
 
-        // A changed email has to be re-proven, otherwise the password-reset
-        // channel could be pointed at an address nobody owns. Done separately
-        // because email_verified_at is not fillable -- were it fillable, a user
-        // could self-verify by adding the field to this form.
         if ($emailChanged) {
             $user->markEmailAsUnverified();
         }

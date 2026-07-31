@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'min:3', 'max:120'],
-            'email' => ['nullable', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
             'phone' => ['required', 'string', 'min:7', 'max:32', 'unique:users,phone'],
             'password' => ['required', 'confirmed', 'string', 'min:6'],
             'referral_code' => ['nullable', 'string', 'exists:users,referral_code'],
@@ -58,7 +58,7 @@ class RegisteredUserController extends Controller
         $user = DB::transaction(function () use ($validated, $referrer) {
             $user = User::query()->create([
                 'name' => $validated['name'],
-                'email' => $validated['email'] ?? null,
+                'email' => $validated['email'],
                 'phone' => $validated['phone'],
                 'password' => $validated['password'],
                 'referral_code' => User::generateReferralCode(),
