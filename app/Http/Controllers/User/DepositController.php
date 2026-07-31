@@ -149,21 +149,38 @@ class DepositController extends Controller
     {
         $reference = $request->query('reference')
             ?? $request->query('tx_ref')
+            ?? $request->query('txref')
             ?? $request->query('trxref');
 
-        $transactionId = $request->query('transaction_id');
+        $transactionId = $request->query('transaction_id') ?? $request->query('id');
 
-        if (! $reference) {
+        $lookupRef = $reference ?: $transactionId;
+
+        if (! $lookupRef) {
             return redirect()->route('deposits.index')
                 ->withErrors(['deposit' => 'We could not identify that payment. If you were debited, contact support with your reference.']);
         }
 
         $deposit = Deposit::query()
-            ->where('user_id', $request->user()->id)
-            ->where('reference', $reference)
+            ->where(function ($query) use ($reference, $transactionId) {
+                if ($reference) {
+                    $query->where('reference', $reference)
+                        ->orWhere('gateway_reference', $reference);
+                }
+                if ($transactionId) {
+                    $query->orWhere('reference', $transactionId)
+                        ->orWhere('gateway_reference', $transactionId);
+                }
+            })
+            ->latest()
             ->first();
 
         if (! $deposit) {
+            return redirect()->route('deposits.index')
+                ->withErrors(['deposit' => "We could not find deposit record matching reference {$lookupRef}. If you were debited, contact support."]);
+        }
+
+        if ($deposit->user_id !== $request->user()->id) {
             return redirect()->route('deposits.index')
                 ->withErrors(['deposit' => 'That payment does not belong to your account.']);
         }
