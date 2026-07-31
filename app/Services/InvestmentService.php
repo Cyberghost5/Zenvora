@@ -129,14 +129,14 @@ class InvestmentService
      */
     public function accrueDay(Investment $investment, ?Carbon $date = null): bool
     {
-        $date = ($date ?? Carbon::today())->startOfDay();
+        $targetDate = ($date ?? Carbon::today())->startOfDay();
 
         if (! $investment->isActive()) {
             return false;
         }
 
         // Nothing accrues before the start date.
-        if ($date->lt($investment->started_on->copy()->startOfDay())) {
+        if ($targetDate->lt($investment->started_on->copy()->startOfDay())) {
             return false;
         }
 
@@ -146,8 +146,14 @@ class InvestmentService
             return false;
         }
 
+        // Unless an explicit date was passed (e.g. CLI backfill), enforce 24 full hours.
+        $nextDue = $investment->nextPayoutAt();
+        if ($date === null && $nextDue && now()->lt($nextDue)) {
+            return false;
+        }
+
         try {
-            return DB::transaction(function () use ($investment, $date) {
+            return DB::transaction(function () use ($investment, $targetDate) {
                 /** @var Investment $locked */
                 $locked = Investment::query()
                     ->whereKey($investment->id)
@@ -167,7 +173,7 @@ class InvestmentService
                     'user_id' => $locked->user_id,
                     'day_index' => $dayIndex,
                     'amount' => $locked->daily_payout,
-                    'accrual_date' => $date->toDateString(),
+                    'accrual_date' => $targetDate->toDateString(),
                     'kind' => 'roi',
                 ]);
 
@@ -182,11 +188,11 @@ class InvestmentService
 
                 $locked->days_paid = $dayIndex;
                 $locked->total_roi_paid = $locked->total_roi_paid->add($locked->daily_payout);
-                $locked->last_accrued_on = $date;
+                $locked->last_accrued_on = $targetDate;
                 $locked->save();
 
                 if ($locked->days_paid >= $locked->duration_days) {
-                    $this->complete($locked, $date);
+                    $this->complete($locked, $targetDate);
                 }
 
                 return true;
@@ -258,21 +264,27 @@ class InvestmentService
      */
     public function accrueAllDue(?Carbon $date = null): array
     {
-        $date = ($date ?? Carbon::today())->startOfDay();
+        $targetDate = ($date ?? Carbon::today())->startOfDay();
 
         $stats = ['processed' => 0, 'paid' => 0, 'completed' => 0];
 
         Investment::query()
             ->active()
-            ->where('started_on', '<=', $date->toDateString())
-            ->where(function ($query) use ($date) {
+            ->where('started_on', '<=', $targetDate->toDateString())
+            ->where(function ($query) use ($targetDate) {
                 // Skip anything already accrued today.
                 $query->whereNull('last_accrued_on')
-                    ->orWhere('last_accrued_on', '<', $date->toDateString());
+                    ->orWhere('last_accrued_on', '<', $targetDate->toDateString());
             })
             ->with(['user', 'plan'])
-            ->chunkById(200, function ($investments) use ($date, &$stats) {
+            ->chunkById(200, function ($investments) use ($date, $targetDate, &$stats) {
                 foreach ($investments as $investment) {
+                    // Check if 24 hours have elapsed for this investment
+                    $nextDue = $investment->nextPayoutAt();
+                    if ($date === null && $nextDue && now()->lt($nextDue)) {
+                        continue;
+                    }
+
                     $stats['processed']++;
 
                     if ($this->accrueDay($investment, $date)) {
