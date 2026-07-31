@@ -9,6 +9,7 @@ use App\Services\SettingsService;
 use App\Support\Money;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Throwable;
 
@@ -147,6 +148,12 @@ class DepositController extends Controller
      */
     public function callback(Request $request, string $channel): RedirectResponse
     {
+        Log::info('[DEPOSIT_CALLBACK_RECEIVED]', [
+            'channel' => $channel,
+            'user_id' => $request->user()?->id,
+            'query' => $request->query(),
+        ]);
+
         $reference = $request->query('reference')
             ?? $request->query('tx_ref')
             ?? $request->query('txref')
