@@ -30,10 +30,6 @@ class AppServiceProvider extends ServiceProvider
                 if (!\Illuminate\Support\Facades\Schema::hasColumn('deposits', 'depositor_account')) {
                     \Illuminate\Support\Facades\DB::statement("ALTER TABLE deposits ADD COLUMN depositor_account VARCHAR(50) NULL AFTER depositor_name");
                 }
-                \App\Models\Deposit::query()
-                    ->whereIn('channel', ['paystack', 'flutterwave'])
-                    ->whereIn('status', ['pending', 'failed'])
-                    ->delete();
             }
             if (\Illuminate\Support\Facades\Schema::hasTable('plans')) {
                 if (!\Illuminate\Support\Facades\Schema::hasColumn('plans', 'image_path')) {
