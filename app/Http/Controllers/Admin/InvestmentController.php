@@ -94,4 +94,16 @@ class InvestmentController extends Controller
             "{$investment->reference} cancelled".($refund ? ' and the principal refunded.' : '.'),
         );
     }
+
+    public function accrueAll(Request $request): RedirectResponse
+    {
+        $stats = $this->investments->accrueAllDue();
+
+        $this->audit->log(
+            action: 'investments.accrued',
+            description: "Manually triggered ROI accrual. Processed: {$stats['processed']}, Paid: {$stats['paid']}.",
+        );
+
+        return back()->with('status', "ROI Payout Disbursement Completed. Paid: {$stats['paid']} payout(s), Completed: {$stats['completed']} investment(s).");
+    }
 }

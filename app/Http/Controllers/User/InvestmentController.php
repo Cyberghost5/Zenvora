@@ -70,8 +70,12 @@ class InvestmentController extends Controller
     {
         abort_unless($investment->user_id === $request->user()->id, 404);
 
+        if ($investment->status === 'active' && ! $investment->hasRunFullTerm()) {
+            $this->investments->accrueDay($investment);
+        }
+
         return view('user.investments.show', [
-            'investment' => $investment->load('plan'),
+            'investment' => $investment->fresh(['plan']),
             'payouts' => $investment->payouts()->latest('accrual_date')->paginate(15),
         ]);
     }

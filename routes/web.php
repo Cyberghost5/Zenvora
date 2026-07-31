@@ -155,6 +155,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Investments
     Route::get('investments', [Admin\InvestmentController::class, 'index'])->name('investments.index');
+    Route::post('investments/accrue-all', [Admin\InvestmentController::class, 'accrueAll'])->name('investments.accrue-all');
     Route::get('investments/{investment}', [Admin\InvestmentController::class, 'show'])->name('investments.show');
     Route::post('investments/{investment}/cancel', [Admin\InvestmentController::class, 'cancel'])->name('investments.cancel');
 

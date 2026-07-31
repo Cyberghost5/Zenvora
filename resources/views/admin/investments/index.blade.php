@@ -11,6 +11,15 @@
                  heading="Investments"
                  subheading="Every contract on the platform and how far through its term it is.">
 
+    <x-slot:actions>
+        <form method="POST" action="{{ route('admin.investments.accrue-all') }}" data-confirm="Disburse daily ROI payouts to all active investments now?">
+            @csrf
+            <button type="submit" class="btn-primary flex items-center gap-2">
+                <i class="fa-solid fa-coins"></i> Disburse ROI Payouts Now
+            </button>
+        </form>
+    </x-slot:actions>
+
     <div class="grid gap-4 sm:grid-cols-3">
         <x-stat label="Active contracts" :value="$counts['active']" tone="brand" />
         <x-stat label="Principal at work" :value="$activePrincipal->formatWithSymbol()" />
