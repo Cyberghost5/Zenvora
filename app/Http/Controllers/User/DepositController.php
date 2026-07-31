@@ -24,7 +24,6 @@ class DepositController extends Controller
     {
         return view('user.deposits.index', [
             'deposits' => $request->user()->deposits()
-                ->whereIn('status', ['successful', 'awaiting_review'])
                 ->latest()
                 ->paginate(15),
             'channels' => $this->deposits->availableChannels(),
