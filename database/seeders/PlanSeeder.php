@@ -151,12 +151,13 @@ class PlanSeeder extends Seeder
         ];
 
         foreach ($plans as $plan) {
+            $isTrial = str_contains(strtolower($plan['name']), 'trial') || str_contains(strtolower($plan['slug']), 'trial');
             Plan::query()->updateOrCreate(
                 ['slug' => $plan['slug']],
                 [
                     ...$plan,
                     'return_capital' => true,
-                    'referral_eligible' => true,
+                    'referral_eligible' => ! $isTrial,
                     'is_active' => true,
                 ],
             );

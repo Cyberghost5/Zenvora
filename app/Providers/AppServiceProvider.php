@@ -39,6 +39,10 @@ class AppServiceProvider extends ServiceProvider
                 if (!\Illuminate\Support\Facades\Schema::hasColumn('plans', 'image_path')) {
                     \Illuminate\Support\Facades\DB::statement("ALTER TABLE plans ADD COLUMN image_path VARCHAR(255) NULL AFTER description");
                 }
+                \App\Models\Plan::query()
+                    ->where('slug', 'like', '%trial%')
+                    ->orWhere('name', 'like', '%trial%')
+                    ->update(['referral_eligible' => false]);
             }
         } catch (\Throwable $e) {
             // Already executed or harmless

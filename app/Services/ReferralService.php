@@ -37,7 +37,10 @@ class ReferralService
             return [];
         }
 
-        if (! $investment->plan?->referral_eligible) {
+        $plan = $investment->plan;
+
+        // Rule 1: No referral commission on VIP Trial plans or ineligible plans.
+        if (! $plan || ! $plan->referral_eligible || str_contains(strtolower($plan->name), 'trial') || str_contains(strtolower($plan->slug), 'trial')) {
             return [];
         }
 
@@ -61,6 +64,16 @@ class ReferralService
             // A blocked upline does not accrue. Their downline still pays the
             // tiers below them -- the chain is not collapsed.
             if ($earner->is_blocked) {
+                continue;
+            }
+
+            // Rule 2: Referral commission is paid ONLY ONCE PER REFERRED USER (first eligible investment only).
+            $alreadyEarnedForUser = ReferralCommission::query()
+                ->where('user_id', $earner->id)
+                ->where('source_user_id', $investor->id)
+                ->exists();
+
+            if ($alreadyEarnedForUser) {
                 continue;
             }
 
