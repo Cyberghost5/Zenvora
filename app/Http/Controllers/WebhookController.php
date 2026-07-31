@@ -37,6 +37,13 @@ class WebhookController extends Controller
         $payload = $request->json()->all();
         $reference = data_get($payload, 'data.reference');
 
+        Log::info('[PAYSTACK_WEBHOOK] Received Payload', [
+            'ip' => $request->ip(),
+            'event' => data_get($payload, 'event'),
+            'reference' => $reference,
+            'payload' => $payload,
+        ]);
+
         if (data_get($payload, 'event') === 'charge.success' && $reference) {
             // Re-verify against the API rather than trusting the payload's
             // amount, then let DepositService apply its own idempotency guard.
@@ -61,6 +68,14 @@ class WebhookController extends Controller
         $payload = $request->json()->all();
         $reference = data_get($payload, 'data.tx_ref') ?? data_get($payload, 'txRef');
         $transactionId = data_get($payload, 'data.id');
+
+        Log::info('[FLUTTERWAVE_WEBHOOK] Received Payload', [
+            'ip' => $request->ip(),
+            'event' => data_get($payload, 'event'),
+            'reference' => $reference,
+            'transaction_id' => $transactionId,
+            'payload' => $payload,
+        ]);
 
         if ($reference || $transactionId) {
             $this->deposits->handleWebhook(

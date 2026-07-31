@@ -5,6 +5,7 @@ namespace App\Services\Gateways;
 use App\Models\Deposit;
 use App\Support\Money;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 class PaystackGateway implements PaymentGateway
@@ -45,7 +46,15 @@ class PaystackGateway implements PaymentGateway
                 ],
             ]);
 
-        $body = $response->json();
+        $body = $response->json() ?? [];
+
+        Log::info('[PAYSTACK_INITIATE] Response received', [
+            'deposit_reference' => $deposit->reference,
+            'user_id' => $deposit->user_id,
+            'email' => $deposit->user->email,
+            'status_code' => $response->status(),
+            'response' => $body,
+        ]);
 
         if (! $response->successful() || ! ($body['status'] ?? false)) {
             throw new RuntimeException(
@@ -74,6 +83,12 @@ class PaystackGateway implements PaymentGateway
             ->get(self::BASE.'/transaction/verify/'.urlencode($reference));
 
         $body = $response->json() ?? [];
+
+        Log::info('[PAYSTACK_VERIFY] Response received', [
+            'reference' => $reference,
+            'status_code' => $response->status(),
+            'response' => $body,
+        ]);
 
         if (! $response->successful() || ! ($body['status'] ?? false)) {
             return GatewayResult::failed(

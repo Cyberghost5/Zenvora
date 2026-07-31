@@ -5,6 +5,7 @@ namespace App\Services\Gateways;
 use App\Models\Deposit;
 use App\Support\Money;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 class FlutterwaveGateway implements PaymentGateway
@@ -53,6 +54,14 @@ class FlutterwaveGateway implements PaymentGateway
 
         $body = $response->json() ?? [];
 
+        Log::info('[FLUTTERWAVE_INITIATE] Response received', [
+            'deposit_reference' => $deposit->reference,
+            'user_id' => $deposit->user_id,
+            'email' => $deposit->user->email,
+            'status_code' => $response->status(),
+            'response' => $body,
+        ]);
+
         if (! $response->successful() || ($body['status'] ?? null) !== 'success') {
             throw new RuntimeException(
                 'Flutterwave could not start this payment: '.($body['message'] ?? $response->status())
@@ -84,6 +93,12 @@ class FlutterwaveGateway implements PaymentGateway
             ->get($url);
 
         $body = $response->json() ?? [];
+
+        Log::info('[FLUTTERWAVE_VERIFY] Response received', [
+            'reference' => $reference,
+            'status_code' => $response->status(),
+            'response' => $body,
+        ]);
 
         if (! $response->successful() || ($body['status'] ?? null) !== 'success') {
             return GatewayResult::failed(
