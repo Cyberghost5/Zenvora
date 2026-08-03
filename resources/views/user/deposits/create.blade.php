@@ -48,7 +48,7 @@
                 {{-- submission with an error the user cannot see.           --}}
                 {{-- ------------------------------------------------------ --}}
 
-                @foreach (['paystack', 'flutterwave'] as $gateway)
+                @foreach (['paystack', 'flutterwave', 'korapay'] as $gateway)
                     @if (collect($channels)->contains('key', $gateway))
                         @php
                             $activeGateway = old('channel', $channels[0]['key'] ?? '') === $gateway;

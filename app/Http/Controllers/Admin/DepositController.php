@@ -131,7 +131,7 @@ class DepositController extends Controller
      */
     public function reverify(Deposit $deposit): RedirectResponse
     {
-        if (! in_array($deposit->channel, ['paystack', 'flutterwave'], true)) {
+        if (! in_array($deposit->channel, ['paystack', 'flutterwave', 'korapay'], true)) {
             return back()->withErrors(['deposit' => 'Only gateway deposits can be re-verified.']);
         }
 

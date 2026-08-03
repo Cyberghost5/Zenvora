@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
     // The gateway sends the user back here. Not throttled as aggressively,
     // because a legitimate user may retry a slow verification.
     Route::get('deposits/callback/{channel}', [User\DepositController::class, 'callback'])
-        ->whereIn('channel', ['paystack', 'flutterwave'])
+        ->whereIn('channel', ['paystack', 'flutterwave', 'korapay'])
         ->name('deposits.callback');
 
     Route::get('deposits/{deposit}', [User\DepositController::class, 'show'])->name('deposits.show');

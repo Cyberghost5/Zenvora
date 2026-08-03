@@ -8,6 +8,7 @@ use App\Models\Deposit;
 use App\Models\User;
 use App\Services\Gateways\FlutterwaveGateway;
 use App\Services\Gateways\GatewayResult;
+use App\Services\Gateways\KorapayGateway;
 use App\Services\Gateways\PaymentGateway;
 use App\Services\Gateways\PaystackGateway;
 use App\Support\DatabaseErrors;

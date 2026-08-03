@@ -42,7 +42,7 @@ class KorapayGateway implements PaymentGateway
                 ],
                 'notification_url' => route('webhooks.korapay'),
                 'redirect_url' => $callbackUrl,
-                'description' => config('app.name').' wallet deposit',
+                'narration' => config('app.name').' wallet deposit',
                 'metadata' => [
                     'user_id' => $deposit->user_id,
                     'deposit_id' => $deposit->id,
