@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
                 \Illuminate\Support\Facades\DB::statement("ALTER TABLE wallet_transactions MODIFY COLUMN type VARCHAR(40) NOT NULL");
             }
             if (\Illuminate\Support\Facades\Schema::hasTable('deposits')) {
+                \Illuminate\Support\Facades\DB::statement("ALTER TABLE deposits MODIFY COLUMN channel VARCHAR(40) NOT NULL");
                 if (!\Illuminate\Support\Facades\Schema::hasColumn('deposits', 'depositor_account')) {
                     \Illuminate\Support\Facades\DB::statement("ALTER TABLE deposits ADD COLUMN depositor_account VARCHAR(50) NULL AFTER depositor_name");
                 }

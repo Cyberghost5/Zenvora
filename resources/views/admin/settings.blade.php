@@ -80,6 +80,7 @@
                         $channelMeta = [
                             'paystack' => ['Paystack', 'Requires PAYSTACK_SECRET_KEY in .env', filled(config('services.paystack.secret'))],
                             'flutterwave' => ['Flutterwave', 'Requires FLUTTERWAVE_SECRET_KEY in .env', filled(config('services.flutterwave.secret'))],
+                            'korapay' => ['Korapay', 'Requires KORAPAY_SECRET_KEY in .env', filled(config('services.korapay.secret'))],
                             'coupon' => ['Coupon codes', 'Issue codes from the Coupons page', true],
                             'manual' => ['Manual bank transfer', 'Requires the account details below', true],
                         ];

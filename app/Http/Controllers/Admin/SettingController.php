@@ -42,8 +42,9 @@ class SettingController extends Controller
             'deposit_min' => ['required', 'numeric', 'min:0.01'],
             'deposit_max' => ['required', 'numeric', 'gte:deposit_min'],
             'deposit_channels' => ['nullable', 'array'],
-            'deposit_channels.*' => ['in:paystack,flutterwave,coupon,manual'],
+            'deposit_channels.*' => ['in:paystack,flutterwave,korapay,coupon,manual'],
             'welcome_bonus' => ['required', 'numeric', 'min:0'],
+            'korapay_secret_key' => ['nullable', 'string', 'max:255'],
 
             // Withdrawals
             'withdrawal_enabled' => ['nullable', 'boolean'],

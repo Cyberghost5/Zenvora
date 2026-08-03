@@ -31,6 +31,7 @@ Route::view('/privacy', 'legal.privacy')->name('privacy');
 
 Route::post('webhooks/paystack', [WebhookController::class, 'paystack'])->name('webhooks.paystack');
 Route::post('webhooks/flutterwave', [WebhookController::class, 'flutterwave'])->name('webhooks.flutterwave');
+Route::post('webhooks/korapay', [WebhookController::class, 'korapay'])->name('webhooks.korapay');
 
 /*
 |--------------------------------------------------------------------------

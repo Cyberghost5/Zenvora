@@ -65,6 +65,7 @@ class Deposit extends Model
         return match ($this->channel) {
             'paystack' => 'Paystack',
             'flutterwave' => 'Flutterwave',
+            'korapay' => 'Korapay',
             'coupon' => 'Coupon',
             'manual' => 'Bank transfer',
             default => ucfirst($this->channel),

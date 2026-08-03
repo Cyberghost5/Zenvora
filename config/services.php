@@ -48,4 +48,10 @@ return [
         'webhook_hash' => env('FLUTTERWAVE_WEBHOOK_HASH'),
     ],
 
+    'korapay' => [
+        'public' => env('KORAPAY_PUBLIC_KEY'),
+        'secret' => env('KORAPAY_SECRET_KEY'),
+        'encryption_key' => env('KORAPAY_ENCRYPTION_KEY'),
+    ],
+
 ];

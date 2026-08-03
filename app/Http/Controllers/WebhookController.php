@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\DepositService;
 use App\Services\Gateways\FlutterwaveGateway;
+use App\Services\Gateways\KorapayGateway;
 use App\Services\Gateways\PaystackGateway;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -22,6 +23,7 @@ class WebhookController extends Controller
         private readonly DepositService $deposits,
         private readonly PaystackGateway $paystack,
         private readonly FlutterwaveGateway $flutterwave,
+        private readonly KorapayGateway $korapay,
     ) {}
 
     public function paystack(Request $request): Response
@@ -82,6 +84,34 @@ class WebhookController extends Controller
                 'flutterwave',
                 $this->flutterwave->verify((string) ($transactionId ?: $reference)),
             );
+        }
+
+        return response('OK', 200);
+    }
+
+    public function korapay(Request $request): Response
+    {
+        $raw = $request->getContent();
+
+        if (! $this->korapay->signatureIsValid($raw, $request->header('x-korapay-signature'))) {
+            Log::warning('Rejected Korapay webhook with an invalid signature.', ['ip' => $request->ip()]);
+
+            return response('Invalid signature', 401);
+        }
+
+        $payload = $request->json()->all();
+        $reference = data_get($payload, 'data.reference') ?? data_get($payload, 'reference');
+        $event = data_get($payload, 'event');
+
+        Log::info('[KORAPAY_WEBHOOK] Received Payload', [
+            'ip' => $request->ip(),
+            'event' => $event,
+            'reference' => $reference,
+            'payload' => $payload,
+        ]);
+
+        if ($reference && in_array($event, ['charge.success', 'transfer.success'], true)) {
+            $this->deposits->handleWebhook('korapay', $this->korapay->verify($reference));
         }
 
         return response('OK', 200);

@@ -19,7 +19,7 @@ return [
         // Deposits
         'deposit_min' => 360_000,          // ₦3,600.00
         'deposit_max' => 500_000_000,      // ₦5,000,000.00
-        'deposit_channels' => ['paystack', 'flutterwave', 'coupon', 'manual'],
+        'deposit_channels' => ['paystack', 'flutterwave', 'korapay', 'coupon', 'manual'],
         'welcome_bonus' => 250_000,        // ₦2,500.00 welcome bonus
 
         // Withdrawals

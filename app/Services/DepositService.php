@@ -31,6 +31,7 @@ class DepositService
         private readonly WalletService $wallet,
         private readonly PaystackGateway $paystack,
         private readonly FlutterwaveGateway $flutterwave,
+        private readonly KorapayGateway $korapay,
     ) {}
 
     // -----------------------------------------------------------------
@@ -69,6 +70,7 @@ class DepositService
         return match ($channel) {
             'paystack' => $this->paystack,
             'flutterwave' => $this->flutterwave,
+            'korapay' => $this->korapay,
             default => throw new RuntimeException("No gateway for channel: {$channel}"),
         };
     }
@@ -80,7 +82,7 @@ class DepositService
      */
     public function availableChannels(): array
     {
-        $enabled = $this->settings->array('deposit_channels', ['paystack', 'flutterwave', 'coupon', 'manual']);
+        $enabled = $this->settings->array('deposit_channels', ['paystack', 'flutterwave', 'korapay', 'coupon', 'manual']);
 
         $all = [
             'paystack' => [
@@ -92,6 +94,11 @@ class DepositService
                 'label' => 'Card / bank via Flutterwave',
                 'note' => 'Instant. Pay with a card, transfer or mobile money.',
                 'usable' => fn () => $this->flutterwave->isConfigured(),
+            ],
+            'korapay' => [
+                'label' => 'Card / bank via Korapay',
+                'note' => 'Instant. Pay with card, transfer or mobile money.',
+                'usable' => fn () => $this->korapay->isConfigured(),
             ],
             'coupon' => [
                 'label' => 'Redeem a coupon',
