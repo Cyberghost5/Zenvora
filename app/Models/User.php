@@ -125,7 +125,7 @@ class User extends Authenticatable
         $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
         do {
-            $code = 'ZV';
+            $code = 'NXE';
             for ($i = 0; $i < 6; $i++) {
                 $code .= $alphabet[random_int(0, strlen($alphabet) - 1)];
             }
