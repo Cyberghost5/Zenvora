@@ -70,7 +70,7 @@ class Coupon extends Model
         $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
         do {
-            $code = 'ZVC-';
+            $code = 'NXE-';
             for ($i = 0; $i < 8; $i++) {
                 $code .= $alphabet[random_int(0, strlen($alphabet) - 1)];
             }

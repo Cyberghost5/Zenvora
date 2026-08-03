@@ -103,7 +103,7 @@ class PageRenderTest extends TestCase
         ]);
 
         $this->coupon = Coupon::query()->create([
-            'code' => 'ZVC-RENDER01',
+            'code' => 'NXE-RENDER01',
             'amount' => 100_000,
             'max_uses' => 1,
             'is_active' => true,

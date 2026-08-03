@@ -12,17 +12,29 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 
-    /* Brand palette: Base color #44b4a7 */
-    --color-brand-50: oklch(0.97 0.02 183);
-    --color-brand-100: oklch(0.94 0.04 183);
-    --color-brand-200: oklch(0.88 0.07 183);
-    --color-brand-300: oklch(0.80 0.09 183);
-    --color-brand-400: oklch(0.74 0.10 183); /* #52c5b9 */
-    --color-brand-500: oklch(0.69 0.10 183); /* #44b4a7 (Base Brand) */
-    --color-brand-600: oklch(0.60 0.09 183); /* #339c90 (Hover) */
-    --color-brand-700: oklch(0.50 0.08 183); /* #2a7e75 */
-    --color-brand-800: oklch(0.40 0.07 183);
-    --color-brand-900: oklch(0.30 0.05 183);
+    /* Primary Brand Palette: Base color #0096d6 */
+    --color-brand-50: #e6f4fb;
+    --color-brand-100: #cce9f7;
+    --color-brand-200: #99d4f0;
+    --color-brand-300: #66bfe8;
+    --color-brand-400: #33abe1;
+    --color-brand-500: #0096d6; /* Primary Base (#0096d6) */
+    --color-brand-600: #007bb0; /* Primary Hover */
+    --color-brand-700: #00608a;
+    --color-brand-800: #004563;
+    --color-brand-900: #002b3d;
+
+    /* Secondary / Accent Palette: Base color #7ac143 */
+    --color-accent-50: #f1f8eb;
+    --color-accent-100: #e3f2d7;
+    --color-accent-200: #c7e5af;
+    --color-accent-300: #abd887;
+    --color-accent-400: #8fca5f;
+    --color-accent-500: #7ac143; /* Accent Base (#7ac143) */
+    --color-accent-600: #62a033; /* Accent Hover */
+    --color-accent-700: #4a7e25;
+    --color-accent-800: #335b17;
+    --color-accent-900: #1c3909;
 
     /* Neutral surfaces, warmed very slightly so large dark areas do not read blue. */
     --color-ink-950: oklch(0.16 0.012 250);
@@ -195,7 +207,14 @@ html[data-theme="light"] .text-brand-100,
 html[data-theme="light"] .text-brand-200,
 html[data-theme="light"] .text-brand-300,
 html[data-theme="light"] .text-brand-400 {
-    color: #44b4a7 !important; /* Base Brand #44b4a7 */
+    color: #0096d6 !important; /* Base Brand #0096d6 */
+}
+
+html[data-theme="light"] .text-accent-100,
+html[data-theme="light"] .text-accent-200,
+html[data-theme="light"] .text-accent-300,
+html[data-theme="light"] .text-accent-400 {
+    color: #7ac143 !important; /* Secondary Accent #7ac143 */
 }
 
 html[data-theme="light"] .text-emerald-400 {
@@ -234,8 +253,8 @@ html[data-theme="light"] textarea::placeholder {
 html[data-theme="light"] .input:focus,
 html[data-theme="light"] select:focus,
 html[data-theme="light"] textarea:focus {
-    border-color: #44b4a7 !important;
-    box-shadow: 0 0 0 2px rgba(68, 180, 167, 0.25) !important;
+    border-color: #0096d6 !important;
+    box-shadow: 0 0 0 2px rgba(0, 150, 214, 0.25) !important;
 }
 
 html[data-theme="light"] input[type="checkbox"],
@@ -246,12 +265,12 @@ html[data-theme="light"] input[type="radio"] {
 
 /* Buttons & Navigation Pills */
 html[data-theme="light"] .btn-primary {
-    background-color: #44b4a7 !important;
+    background-color: #0096d6 !important;
     color: #ffffff !important;
 }
 
 html[data-theme="light"] .btn-primary:hover {
-    background-color: #339c90 !important;
+    background-color: #007bb0 !important;
 }
 
 html[data-theme="light"] .btn-ghost {

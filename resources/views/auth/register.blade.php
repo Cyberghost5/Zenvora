@@ -67,7 +67,7 @@
                    type="text"
                    value="{{ old('referral_code', $referralCode) }}"
                    class="input font-mono uppercase"
-                   placeholder="ZVXXXXXX"
+                   placeholder="NXEXXXXXX"
                    @if ($referrer) readonly @endif>
             <x-input-error for="referral_code" />
         </div>

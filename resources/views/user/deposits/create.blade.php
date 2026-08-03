@@ -216,7 +216,7 @@
                                    name="coupon_code"
                                    type="text"
                                    value="{{ old('coupon_code') }}"
-                                   placeholder="ZVC-XXXXXXXX"
+                                   placeholder="NXE-XXXXXXXX"
                                    autocomplete="off"
                                    class="input font-mono uppercase"
                                    data-required
