@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('admin_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('admin_name')->nullable();
 
-            $table->string('action')->index();
+            $table->string('action', 191)->index();
             $table->nullableMorphs('subject');
             $table->string('description')->nullable();
 

@@ -32,7 +32,7 @@ return new class extends Migration
             // Gateway identifiers. `gateway_reference` is what Paystack or
             // Flutterwave echoes back and is what we re-verify against their API
             // before crediting -- the callback's query string is never trusted.
-            $table->string('gateway_reference')->nullable()->index();
+            $table->string('gateway_reference', 191)->nullable()->index();
             $table->json('gateway_payload')->nullable();
 
             $table->foreignId('coupon_id')->nullable()->constrained()->nullOnDelete();

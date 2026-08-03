@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug', 191)->unique();
             $table->string('tagline')->nullable();
             $table->text('description')->nullable();
 
