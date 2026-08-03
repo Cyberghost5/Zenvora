@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        \Illuminate\Support\Facades\Schema::defaultStringLength(191);
+
         try {
             if (\Illuminate\Support\Facades\Schema::hasTable('users')) {
                 \Illuminate\Support\Facades\DB::statement("ALTER TABLE users MODIFY COLUMN email VARCHAR(255) NULL");
