@@ -6,6 +6,7 @@ use App\Models\Investment;
 use App\Services\InvestmentService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Pays one day of ROI to every active investment.
@@ -32,6 +33,10 @@ class AccrueInvestmentReturns extends Command
         if ($date->isFuture()) {
             $this->error('Refusing to accrue for a future date.');
 
+            Log::warning('[CRON_INVESTMENTS_ACCRUE_REJECTED] Refused future date accrual.', [
+                'requested_date' => $date->toDateString(),
+            ]);
+
             return self::FAILURE;
         }
 
@@ -44,8 +49,18 @@ class AccrueInvestmentReturns extends Command
                 ->orWhere('last_accrued_on', '<', $date->toDateString()))
             ->count();
 
+        Log::info('[CRON_INVESTMENTS_ACCRUE_START]', [
+            'date' => $date->toDateString(),
+            'due_investments' => $due,
+            'dry_run' => (bool) $this->option('dry-run'),
+        ]);
+
         if ($due === 0) {
             $this->line('Nothing due. Every active investment is already accrued for this date.');
+
+            Log::info('[CRON_INVESTMENTS_ACCRUE_FINISHED] Nothing due for date.', [
+                'date' => $date->toDateString(),
+            ]);
 
             return self::SUCCESS;
         }
@@ -57,6 +72,13 @@ class AccrueInvestmentReturns extends Command
         }
 
         $stats = $investments->accrueAllDue($date);
+
+        Log::info('[CRON_INVESTMENTS_ACCRUE_SUCCESS]', [
+            'date' => $date->toDateString(),
+            'processed' => $stats['processed'],
+            'paid' => $stats['paid'],
+            'completed' => $stats['completed'],
+        ]);
 
         $this->newLine();
         $this->table(

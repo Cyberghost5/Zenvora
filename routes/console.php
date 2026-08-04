@@ -19,4 +19,6 @@ Schedule::command('investments:accrue')
     ->dailyAt('00:05')
     ->timezone(config('zenvora.defaults.withdrawal_timezone', 'Africa/Lagos'))
     ->withoutOverlapping()
-    ->onFailure(fn () => logger()->error('Scheduled investment accrual failed.'));
+    ->before(fn () => logger()->info('[CRON_SCHEDULE_START] Running investments:accrue scheduled task.'))
+    ->after(fn () => logger()->info('[CRON_SCHEDULE_COMPLETE] investments:accrue scheduled task finished.'))
+    ->onFailure(fn () => logger()->error('[CRON_SCHEDULE_FAILED] Scheduled investment accrual failed.'));
